@@ -93,7 +93,7 @@ export function SimulationBar() {
         <button
           onClick={stepBackward}
           disabled={isIdle || simulationStep <= 0}
-          className="w-7 h-7 flex items-center justify-center rounded transition-colors disabled:opacity-25"
+          className="w-9 h-9 sm:w-7 sm:h-7 flex items-center justify-center rounded transition-colors disabled:opacity-25"
           style={{ background: theme.bg.raised, color: theme.text.secondary }}
           title="Step backward"
         >
@@ -106,7 +106,7 @@ export function SimulationBar() {
         {/* Play / Pause */}
         <button
           onClick={showPlayIcon ? handlePlay : handlePause}
-          className="w-7 h-7 flex items-center justify-center rounded transition-colors"
+          className="w-9 h-9 sm:w-7 sm:h-7 flex items-center justify-center rounded transition-colors"
           style={{
             background: theme.accent.primary,
             color: '#fff',
@@ -129,7 +129,7 @@ export function SimulationBar() {
         <button
           onClick={stepForward}
           disabled={isIdle || isComplete}
-          className="w-7 h-7 flex items-center justify-center rounded transition-colors disabled:opacity-25"
+          className="w-9 h-9 sm:w-7 sm:h-7 flex items-center justify-center rounded transition-colors disabled:opacity-25"
           style={{ background: theme.bg.raised, color: theme.text.secondary }}
           title="Step forward"
         >
@@ -165,8 +165,8 @@ export function SimulationBar() {
       {/* Divider */}
       <div className="w-px h-5 flex-shrink-0" style={{ background: theme.border.subtle }} />
 
-      {/* Explanation text */}
-      <div className="flex-1 min-w-0">
+      {/* Explanation text — hidden on mobile */}
+      <div className="hidden sm:block flex-1 min-w-0">
         <p
           className="text-xs truncate"
           style={{ color: isComplete ? theme.accent.hover : theme.text.primary }}
@@ -176,9 +176,9 @@ export function SimulationBar() {
         </p>
       </div>
 
-      {/* Speed pills */}
+      {/* Speed pills — hidden on mobile */}
       {!isIdle && (
-        <div className="flex gap-1 flex-shrink-0">
+        <div className="hidden sm:flex gap-1 flex-shrink-0">
           {SPEED_PRESETS.map((speed) => (
             <button
               key={speed}

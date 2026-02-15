@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useCircuitStore } from '../../store/circuitStore';
 import { parseQASM } from '../../parser/qasmParser';
 import { BASICS, ULTIMATE } from '../../lib/algorithms';
@@ -55,8 +55,15 @@ export function ProgramSelector() {
   const setUIMode = useCircuitStore((s) => s.setUIMode);
   const [fading, setFading] = useState(false);
 
+  const isVisible = uiMode === 'explore' && simulation === 'idle' && gates.length === 0;
+
+  // Reset fading when the selector becomes visible again (e.g. back button)
+  useEffect(() => {
+    if (isVisible) setFading(false);
+  }, [isVisible]);
+
   // Only show in explore mode when idle and no circuit loaded
-  if (uiMode !== 'explore' || simulation !== 'idle' || gates.length > 0) return null;
+  if (!isVisible) return null;
 
   const handleLoadAlgorithm = (algo: Algorithm) => {
     setFading(true);
@@ -81,10 +88,10 @@ export function ProgramSelector() {
         background: theme.bg.base,
       }}
     >
-      <div className="flex flex-col items-center gap-5 max-w-[780px] w-full px-8 py-8 my-auto">
+      <div className="flex flex-col items-center gap-5 max-w-[780px] w-full px-4 sm:px-8 py-6 sm:py-8 my-auto">
         {/* Header */}
         <div className="text-center">
-          <h2 className="text-2xl font-bold mb-1" style={{ color: theme.text.primary }}>
+          <h2 className="text-xl sm:text-2xl font-bold mb-1" style={{ color: theme.text.primary }}>
             Explore Quantum Programs
           </h2>
           <p className="text-[15px]" style={{ color: theme.text.tertiary }}>
@@ -142,7 +149,7 @@ export function ProgramSelector() {
             </span>
             <div className="flex-1 h-px" style={{ background: theme.border.subtle }} />
           </div>
-          <div className="grid grid-cols-3 gap-3 w-full">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 w-full">
             {BASICS.map((algo) => (
               <AlgorithmCard key={algo.name} algo={algo} onClick={() => handleLoadAlgorithm(algo)} />
             ))}

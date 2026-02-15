@@ -13,7 +13,7 @@ export function LearnCanvas() {
 
   return (
     <Canvas
-      camera={{ position: [0, 1, 4], fov: 50 }}
+      camera={{ position: [0, 1.5, 6], fov: 50 }}
       gl={{ antialias: true, toneMapping: 3 }}
       style={{ background: '#0e1525' }}
     >

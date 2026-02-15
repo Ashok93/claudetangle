@@ -10,6 +10,7 @@ export function OutputPanel() {
   const detectedAlgorithm = useCircuitStore((s) => s.detectedAlgorithm);
   const gates = useCircuitStore((s) => s.gates);
   const [animatedProbs, setAnimatedProbs] = useState<number[]>([]);
+  const [isMinimized, setIsMinimized] = useState(false);
 
   // For Shor's, marginalize work register to show 16 counting-register states
   const displayProbs = useMemo(() => {
@@ -46,9 +47,37 @@ export function OutputPanel() {
   const significantProbs = displayProbs.filter((p) => p.probability > 0.001);
   const maxProb = Math.max(...displayProbs.map((p) => p.probability), 0.01);
 
+  // Minimized: show a small floating pill button
+  if (isMinimized) {
+    return (
+      <button
+        onClick={() => setIsMinimized(false)}
+        className="absolute bottom-4 right-4 z-30 flex items-center gap-2 px-3 py-2 rounded-full shadow-lg border transition-colors"
+        style={{
+          background: theme.bg.surface + 'f8',
+          borderColor: theme.border.medium,
+          backdropFilter: 'blur(12px)',
+        }}
+      >
+        <div
+          className="w-2 h-2 rounded-full"
+          style={{
+            background: simulation === 'running' ? semantic.success :
+              simulation === 'complete' ? theme.accent.primary :
+              theme.text.tertiary,
+          }}
+        />
+        <span className="text-[11px] font-semibold" style={{ color: theme.text.primary }}>
+          Output
+        </span>
+        <span className="text-[10px]" style={{ color: theme.text.tertiary }}>&#9650;</span>
+      </button>
+    );
+  }
+
   return (
     <div
-      className="absolute bottom-4 right-4 z-30 w-80 max-h-[60vh] overflow-hidden flex flex-col rounded-xl shadow-2xl border"
+      className="absolute bottom-4 right-4 z-30 w-[calc(100vw-2rem)] sm:w-80 max-h-[60vh] overflow-hidden flex flex-col rounded-xl shadow-2xl border"
       style={{
         background: theme.bg.surface + 'f8',
         borderColor: theme.border.medium,
@@ -76,7 +105,7 @@ export function OutputPanel() {
         </span>
         {detectedAlgorithm && (
           <span
-            className="ml-auto text-[10px] px-1.5 py-0.5 rounded-full border"
+            className="text-[10px] px-1.5 py-0.5 rounded-full border"
             style={{
               background: theme.accent.primary + '15',
               color: theme.accent.hover,
@@ -86,6 +115,14 @@ export function OutputPanel() {
             {detectedAlgorithm}
           </span>
         )}
+        <button
+          onClick={() => setIsMinimized(true)}
+          className="ml-auto text-[10px] px-1.5 py-0.5 rounded transition-colors"
+          style={{ color: theme.text.tertiary }}
+          title="Minimize output panel"
+        >
+          &#9660;
+        </button>
       </div>
 
       {/* Scrollable content */}

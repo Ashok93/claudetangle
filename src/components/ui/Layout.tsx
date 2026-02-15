@@ -52,7 +52,7 @@ export function Layout() {
   }
 
   return (
-    <div className="h-dvh w-screen flex flex-col overflow-hidden" style={{ background: theme.bg.base }}>
+    <div className="h-dvh w-screen flex flex-col overflow-hidden pb-[env(safe-area-inset-bottom)]" style={{ background: theme.bg.base }}>
       {/* Top bar: Toolbar */}
       <Toolbar />
 
@@ -61,15 +61,15 @@ export function Layout() {
 
       {/* Main content area */}
       <div className="flex-1 flex overflow-hidden">
-        {/* Code Editor Panel — hidden on home screen */}
+        {/* Code Editor Panel — hidden on home screen and on mobile */}
         {!isHomeScreen && showEditor && (
           <>
-            <div style={{ width: editorWidth, minWidth: 200 }} className="flex-shrink-0 h-full">
+            <div style={{ width: editorWidth, minWidth: 200 }} className="hidden md:block flex-shrink-0 h-full">
               <CodeEditor />
             </div>
             <div
               onMouseDown={handleEditorDrag}
-              className="w-1 flex-shrink-0 cursor-col-resize transition-colors"
+              className="hidden md:block w-1 flex-shrink-0 cursor-col-resize transition-colors"
               style={{
                 background: isDraggingEditor ? theme.accent.primary : theme.border.subtle,
               }}
@@ -84,9 +84,9 @@ export function Layout() {
           <OutputPanel />
           <ProgramSelector />
 
-          {/* Code toggle — hidden on home screen */}
+          {/* Code toggle — hidden on home screen and on mobile */}
           {!isHomeScreen && (
-            <div className="absolute top-2 left-2 flex gap-1 z-20">
+            <div className="absolute top-2 left-2 hidden md:flex gap-1 z-20">
               <button
                 onClick={() => setShowEditor(!showEditor)}
                 className="px-3 py-1.5 text-[11px] rounded transition-colors border"

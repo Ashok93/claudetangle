@@ -23,7 +23,7 @@ export function Toolbar() {
 
   return (
     <div
-      className="flex items-center justify-between px-4 py-2.5 border-b flex-shrink-0"
+      className="flex items-center justify-between px-4 py-2 sm:py-1.5 border-b flex-shrink-0"
       style={{ background: theme.bg.surface, borderColor: theme.border.subtle }}
     >
       <div className="flex items-center gap-4">
@@ -31,7 +31,7 @@ export function Toolbar() {
         {(gates.length > 0 || uiMode === 'build') && (
           <button
             onClick={handleBackToPrograms}
-            className="px-3 py-1.5 text-xs rounded transition-colors border"
+            className="px-3 py-1.5 min-h-[44px] sm:min-h-0 text-xs rounded transition-colors border"
             style={{
               background: theme.bg.raised,
               color: theme.text.secondary,
@@ -50,7 +50,7 @@ export function Toolbar() {
           >
             ct
           </div>
-          <span className="text-sm font-bold tracking-wide" style={{ color: theme.text.primary }}>claudetangle</span>
+          <span className="hidden sm:inline text-sm font-bold tracking-wide" style={{ color: theme.text.primary }}>claudetangle</span>
         </div>
 
         {/* Detected algorithm badge */}
@@ -76,7 +76,7 @@ export function Toolbar() {
           <>
             <button
               onClick={() => setUIMode('learn')}
-              className="px-3 py-1.5 text-xs rounded-lg transition-colors border"
+              className="px-3 py-1.5 min-h-[44px] sm:min-h-0 text-xs rounded-lg transition-colors border"
               style={{
                 background: semantic.success + '10',
                 color: semantic.success,
@@ -87,7 +87,7 @@ export function Toolbar() {
             </button>
             <button
               onClick={handleBuildYourOwn}
-              className="px-3 py-1.5 text-xs rounded-lg transition-colors border"
+              className="px-3 py-1.5 min-h-[44px] sm:min-h-0 text-xs rounded-lg transition-colors border"
               style={{
                 background: theme.bg.raised,
                 color: theme.text.secondary,

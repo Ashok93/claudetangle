@@ -73,6 +73,7 @@ function CameraController() {
       maxDistance={500}
       enablePan
       target={[0, 0, 8]}
+      touches={{ ONE: THREE.TOUCH.ROTATE, TWO: THREE.TOUCH.DOLLY_PAN }}
     />
   );
 }
@@ -166,7 +167,7 @@ export function QuantumScene() {
     <>
       <KeyboardHandler />
       <Canvas
-        camera={{ position: [8, 6, -4], fov: 50 }}
+        camera={{ position: [12, 9, -6], fov: 50 }}
         gl={{ antialias: true, toneMapping: 3 }}
         style={{ background: BACKGROUND_COLOR }}
         onPointerMissed={() => {

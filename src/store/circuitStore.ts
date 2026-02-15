@@ -147,9 +147,13 @@ export const useCircuitStore = create<CircuitState>((set, get) => ({
     selectedGateId: null,
     simulation: 'idle',
     simulationStep: -1,
+    simulationMaxStep: 0,
     outputProbabilities: [],
     detectedAlgorithm: null,
     stepStates: [],
+    qubits: 5,
+    simulationPaused: false,
+    selectedBlochQubit: null,
   }),
 
   loadGates: (qubits, gates) => {
@@ -202,6 +206,7 @@ export const useCircuitStore = create<CircuitState>((set, get) => ({
   resetSimulation: () => set({
     simulation: 'idle',
     simulationStep: -1,
+    simulationMaxStep: 0,
     outputProbabilities: [],
     stepStates: [],
     simulationPaused: false,
