@@ -18,7 +18,7 @@ export function GateInfo() {
 
   return (
     <div
-      className="absolute top-14 right-4 z-30 w-72 rounded-xl shadow-2xl overflow-hidden border"
+      className="absolute top-14 right-4 z-40 w-72 rounded-xl shadow-2xl overflow-hidden border"
       style={{ background: theme.bg.surface + 'f8', borderColor: theme.border.medium, backdropFilter: 'blur(12px)', boxShadow: '0 4px 20px rgba(0,0,0,0.08)' }}
     >
       {/* Header */}

@@ -69,8 +69,9 @@ function CameraController() {
       makeDefault
       enableDamping
       dampingFactor={0.05}
-      minDistance={3}
-      maxDistance={50}
+      minDistance={1}
+      maxDistance={500}
+      enablePan
       target={[0, 0, 8]}
     />
   );

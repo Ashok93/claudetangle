@@ -26,7 +26,7 @@ import { useFrame } from '@react-three/fiber';
 import { Line } from '@react-three/drei';
 import * as THREE from 'three';
 import { useCircuitStore } from '../../store/circuitStore';
-import { QUBIT_SPACING, STEP_SPACING, RAIL_LENGTH } from '../../lib/constants';
+import { QUBIT_SPACING, STEP_SPACING, RAIL_MIN_LENGTH, RAIL_PADDING_STEPS } from '../../lib/constants';
 import { phaseToHue, type StepState } from '../../lib/quantumSim';
 
 interface ProbabilityWaveProps {
@@ -68,6 +68,13 @@ function getStateAtZ(
 
 export function ProbabilityWave({ qubitIndex, totalQubits }: ProbabilityWaveProps) {
   const yPos = (totalQubits - 1) / 2 * QUBIT_SPACING - qubitIndex * QUBIT_SPACING;
+  const gates = useCircuitStore((s) => s.gates);
+
+  // Dynamic rail length matching QubitRail
+  const railEnd = useMemo(() => {
+    const maxStep = gates.length > 0 ? Math.max(...gates.map((g) => g.step)) : 0;
+    return Math.max(RAIL_MIN_LENGTH, (maxStep + RAIL_PADDING_STEPS) * STEP_SPACING);
+  }, [gates]);
 
   const realRef = useRef<any>(null);
   const imagRef = useRef<any>(null);
@@ -85,11 +92,11 @@ export function ProbabilityWave({ qubitIndex, totalQubits }: ProbabilityWaveProp
     const pts: [number, number, number][] = [];
     for (let i = 0; i < POINT_COUNT; i++) {
       const t = i / (POINT_COUNT - 1);
-      const z = -2 + t * (RAIL_LENGTH + 2);
+      const z = -2 + t * (railEnd + 2);
       pts.push([0, yPos, z]);
     }
     return pts;
-  }, [yPos]);
+  }, [yPos, railEnd]);
 
   // Initial vertex colors (default indigo)
   const initialColors = useMemo(() => {
@@ -111,14 +118,15 @@ export function ProbabilityWave({ qubitIndex, totalQubits }: ProbabilityWaveProp
     const rCol = realColors.current;
     const iCol = imagColors.current;
 
-    // Wave only extends to where the simulation has computed
+    // Wave only extends to where the simulation has computed — clip at last gate
+    const maxStep = useCircuitStore.getState().simulationMaxStep;
     const showZ = simulation === 'complete'
-      ? RAIL_LENGTH
+      ? (maxStep + 1) * STEP_SPACING
       : simulationStep * STEP_SPACING + STEP_SPACING * 0.5;
 
     for (let i = 0; i < POINT_COUNT; i++) {
       const t = i / (POINT_COUNT - 1);
-      const z = -2 + t * (RAIL_LENGTH + 2);
+      const z = -2 + t * (railEnd + 2);
 
       let realY = yPos;
       let imagY = yPos;

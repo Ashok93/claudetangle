@@ -48,9 +48,9 @@ export function Toolbar() {
             className="w-6 h-6 rounded flex items-center justify-center text-[10px] font-bold text-white"
             style={{ background: theme.accent.primary }}
           >
-            Q
+            ct
           </div>
-          <span className="text-sm font-bold tracking-wide" style={{ color: theme.text.primary }}>Q-Flux</span>
+          <span className="text-sm font-bold tracking-wide" style={{ color: theme.text.primary }}>claudetangle</span>
         </div>
 
         {/* Detected algorithm badge */}

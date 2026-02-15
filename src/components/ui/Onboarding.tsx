@@ -8,13 +8,13 @@ interface OnboardingProps {
 
 const STEPS = [
   {
-    title: 'Welcome to Q-Flux',
+    title: 'Welcome to claudetangle',
     subtitle: 'See quantum computing come alive in 3D',
     body: `Regular computers use bits — tiny switches that are either OFF (0) or ON (1).
 
 Quantum computers use **qubits** — which can be both 0 AND 1 at the same time. Weird? Absolutely. But this weirdness gives quantum computers incredible power.
 
-Q-Flux lets you **see** how quantum circuits work, step by step, in a way that finally makes sense.`,
+claudetangle lets you **see** how quantum circuits work, step by step, in a way that finally makes sense.`,
     visual: 'intro',
   },
   {

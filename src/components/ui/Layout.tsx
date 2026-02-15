@@ -12,8 +12,11 @@ import { theme } from '../../lib/theme';
 
 export function Layout() {
   const uiMode = useCircuitStore((s) => s.uiMode);
+  const simulation = useCircuitStore((s) => s.simulation);
+  const gates = useCircuitStore((s) => s.gates);
   const [editorWidth, setEditorWidth] = useState(320);
   const [showEditor, setShowEditor] = useState(true);
+  const isHomeScreen = uiMode === 'explore' && simulation === 'idle' && gates.length === 0;
   const [isDraggingEditor, setIsDraggingEditor] = useState(false);
 
   const handleEditorDrag = useCallback((e: React.MouseEvent) => {
@@ -40,7 +43,7 @@ export function Layout() {
 
   if (uiMode === 'learn') {
     return (
-      <div className="h-screen w-screen flex flex-col overflow-hidden" style={{ background: theme.bg.base }}>
+      <div className="h-dvh w-screen flex flex-col overflow-hidden" style={{ background: theme.bg.base }}>
         <div className="flex-1 overflow-hidden">
           <LearnMode />
         </div>
@@ -49,7 +52,7 @@ export function Layout() {
   }
 
   return (
-    <div className="h-screen w-screen flex flex-col overflow-hidden" style={{ background: theme.bg.base }}>
+    <div className="h-dvh w-screen flex flex-col overflow-hidden" style={{ background: theme.bg.base }}>
       {/* Top bar: Toolbar */}
       <Toolbar />
 
@@ -58,8 +61,8 @@ export function Layout() {
 
       {/* Main content area */}
       <div className="flex-1 flex overflow-hidden">
-        {/* Code Editor Panel — available in both modes */}
-        {showEditor && (
+        {/* Code Editor Panel — hidden on home screen */}
+        {!isHomeScreen && showEditor && (
           <>
             <div style={{ width: editorWidth, minWidth: 200 }} className="flex-shrink-0 h-full">
               <CodeEditor />
@@ -81,20 +84,22 @@ export function Layout() {
           <OutputPanel />
           <ProgramSelector />
 
-          {/* Code toggle */}
-          <div className="absolute top-2 left-2 flex gap-1 z-20">
-            <button
-              onClick={() => setShowEditor(!showEditor)}
-              className="px-3 py-1.5 text-[11px] rounded transition-colors border"
-              style={{
-                background: showEditor ? theme.accent.primary + '20' : theme.bg.raised,
-                color: showEditor ? theme.accent.hover : theme.text.tertiary,
-                borderColor: showEditor ? theme.accent.primary + '30' : theme.border.subtle,
-              }}
-            >
-              {showEditor ? '← Hide Code' : 'Code'}
-            </button>
-          </div>
+          {/* Code toggle — hidden on home screen */}
+          {!isHomeScreen && (
+            <div className="absolute top-2 left-2 flex gap-1 z-20">
+              <button
+                onClick={() => setShowEditor(!showEditor)}
+                className="px-3 py-1.5 text-[11px] rounded transition-colors border"
+                style={{
+                  background: showEditor ? theme.accent.primary + '20' : theme.bg.raised,
+                  color: showEditor ? theme.accent.hover : theme.text.tertiary,
+                  borderColor: showEditor ? theme.accent.primary + '30' : theme.border.subtle,
+                }}
+              >
+                {showEditor ? '\u2190 Hide Code' : 'Code'}
+              </button>
+            </div>
+          )}
         </div>
 
       </div>

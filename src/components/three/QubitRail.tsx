@@ -2,7 +2,7 @@ import { useMemo, useRef } from 'react';
 import { useFrame } from '@react-three/fiber';
 import { Text } from '@react-three/drei';
 import * as THREE from 'three';
-import { QUBIT_SPACING, RAIL_RADIUS, RAIL_LENGTH, RAIL_COLOR, RAIL_EMISSIVE } from '../../lib/constants';
+import { QUBIT_SPACING, RAIL_RADIUS, STEP_SPACING, RAIL_MIN_LENGTH, RAIL_PADDING_STEPS, RAIL_COLOR, RAIL_EMISSIVE } from '../../lib/constants';
 import { useCircuitStore } from '../../store/circuitStore';
 import { phaseToHue } from '../../lib/quantumSim';
 
@@ -13,15 +13,22 @@ interface QubitRailProps {
 
 export function QubitRail({ index, totalQubits }: QubitRailProps) {
   const meshRef = useRef<THREE.Mesh>(null);
+  const gates = useCircuitStore((s) => s.gates);
 
   const yPos = (totalQubits - 1) / 2 * QUBIT_SPACING - index * QUBIT_SPACING;
+
+  // Dynamic rail length based on circuit size
+  const railEnd = useMemo(() => {
+    const maxStep = gates.length > 0 ? Math.max(...gates.map((g) => g.step)) : 0;
+    return Math.max(RAIL_MIN_LENGTH, (maxStep + RAIL_PADDING_STEPS) * STEP_SPACING);
+  }, [gates]);
 
   const curve = useMemo(() => {
     return new THREE.LineCurve3(
       new THREE.Vector3(0, yPos, -2),
-      new THREE.Vector3(0, yPos, RAIL_LENGTH)
+      new THREE.Vector3(0, yPos, railEnd)
     );
-  }, [yPos]);
+  }, [yPos, railEnd]);
 
   const tubeGeometry = useMemo(() => {
     return new THREE.TubeGeometry(curve, 64, RAIL_RADIUS, 8, false);

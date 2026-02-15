@@ -6,7 +6,9 @@ import type { GateType } from '../types/circuit';
 export const QUBIT_SPACING = 2;
 export const STEP_SPACING = 2.5;
 export const RAIL_RADIUS = 0.04;
-export const RAIL_LENGTH = 30;
+export const RAIL_LENGTH = 30; // static fallback — prefer useRailLength() for dynamic sizing
+export const RAIL_MIN_LENGTH = 8; // minimum rail for empty circuits
+export const RAIL_PADDING_STEPS = 2; // extra steps past last gate
 
 // Gate colors — from theme
 export const GATE_COLORS = THEME_GATE_COLORS;

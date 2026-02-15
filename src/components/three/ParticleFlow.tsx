@@ -1,7 +1,7 @@
 import { useRef, useMemo } from 'react';
 import { useFrame } from '@react-three/fiber';
 import * as THREE from 'three';
-import { QUBIT_SPACING, RAIL_LENGTH } from '../../lib/constants';
+import { QUBIT_SPACING, STEP_SPACING, RAIL_MIN_LENGTH, RAIL_PADDING_STEPS } from '../../lib/constants';
 import { useCircuitStore } from '../../store/circuitStore';
 import { phaseToHue } from '../../lib/quantumSim';
 
@@ -14,7 +14,14 @@ const PARTICLE_COUNT = 15;
 
 export function ParticleFlow({ qubitIndex, totalQubits }: ParticleFlowProps) {
   const meshRef = useRef<THREE.InstancedMesh>(null);
+  const gates = useCircuitStore((s) => s.gates);
   const yPos = (totalQubits - 1) / 2 * QUBIT_SPACING - qubitIndex * QUBIT_SPACING;
+
+  // Dynamic rail length matching QubitRail
+  const railEnd = useMemo(() => {
+    const maxStep = gates.length > 0 ? Math.max(...gates.map((g) => g.step)) : 0;
+    return Math.max(RAIL_MIN_LENGTH, (maxStep + RAIL_PADDING_STEPS) * STEP_SPACING);
+  }, [gates]);
 
   const dummy = useMemo(() => new THREE.Object3D(), []);
   const speeds = useMemo(() =>
@@ -22,8 +29,8 @@ export function ParticleFlow({ qubitIndex, totalQubits }: ParticleFlowProps) {
     []
   );
   const offsets = useMemo(() =>
-    Array.from({ length: PARTICLE_COUNT }, () => Math.random() * RAIL_LENGTH),
-    []
+    Array.from({ length: PARTICLE_COUNT }, () => Math.random() * railEnd),
+    [railEnd]
   );
 
   useFrame((state) => {
@@ -53,7 +60,7 @@ export function ParticleFlow({ qubitIndex, totalQubits }: ParticleFlowProps) {
     mat.color.setHSL(hue / 360, 0.4, 0.5);
 
     for (let i = 0; i < PARTICLE_COUNT; i++) {
-      const z = ((offsets[i] + time * speeds[i]) % (RAIL_LENGTH + 2)) - 2;
+      const z = ((offsets[i] + time * speeds[i]) % (railEnd + 2)) - 2;
       const wobble = Math.sin(time * 3 + i) * 0.05;
       dummy.position.set(wobble, yPos + wobble * 0.5, z);
       const baseScale = 0.02 + Math.sin(time * 2 + i * 0.5) * 0.01;

@@ -12,11 +12,18 @@ html,
 body,
 #root {
   width: 100%;
-  height: 100%;
+  height: 100dvh;
   overflow: hidden;
   background: #ffffff;
   color: #111827;
   font-family: 'Inter', system-ui, -apple-system, sans-serif;
+}
+
+/* Mobile safe area padding */
+@supports (padding-bottom: env(safe-area-inset-bottom)) {
+  .safe-bottom {
+    padding-bottom: env(safe-area-inset-bottom);
+  }
 }
 
 /* Scrollbar styling */
