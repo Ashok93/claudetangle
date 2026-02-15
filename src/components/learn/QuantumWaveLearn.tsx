@@ -10,17 +10,17 @@ interface QuantumWaveLearnProps {
   position: [number, number, number];
 }
 
-const WAVE_OFFSET = 0.15; // Vertical gap between the two waves
+const WAVE_OFFSET = 0.18; // Vertical gap between the two waves
+const NUM_POINTS = 60;
+const WAVE_LENGTH = 2.4;
+const MAX_AMP = 0.25;
+const WAVE_LINE_WIDTH = 4;
 
 export function QuantumWaveLearn({ index, position }: QuantumWaveLearnProps) {
   const timeRef = useRef(0);
   const points0Ref = useRef<THREE.Vector3[]>([]);
   const points1Ref = useRef<THREE.Vector3[]>([]);
   const color1Ref = useRef(new THREE.Color('#f87171'));
-
-  const NUM_POINTS = 60;
-  const WAVE_LENGTH = 2.4;
-  const MAX_AMP = 0.18;
 
   // Initialize point arrays
   useMemo(() => {
@@ -42,7 +42,7 @@ export function QuantumWaveLearn({ index, position }: QuantumWaveLearnProps) {
 
     // |1⟩ wave color: offset phaseToHue by 120° so it starts warm/red instead of blue
     const hue = (phaseToHue(phase) + 120) % 360;
-    color1Ref.current.setHSL(hue / 360, 0.75, 0.55);
+    color1Ref.current.setHSL(hue / 360, 0.85, 0.6);
 
     // Generate wave points — vertically separated
     for (let i = 0; i < NUM_POINTS; i++) {
@@ -62,107 +62,100 @@ export function QuantumWaveLearn({ index, position }: QuantumWaveLearnProps) {
   return (
     <group position={position}>
       {/* Title */}
-      <Text position={[0, WAVE_OFFSET + MAX_AMP + 0.14, 0]} fontSize={0.07} color="#6a6d85" anchorX="center" anchorY="bottom" font={undefined}>
+      <Text position={[0, WAVE_OFFSET + MAX_AMP + 0.14, 0]} fontSize={0.08} color="#94a3b8" anchorX="center" anchorY="bottom" font={undefined}>
         Probability Amplitudes
       </Text>
 
       {/* |0⟩ wave label */}
-      <Text position={[-WAVE_LENGTH / 2 - 0.1, WAVE_OFFSET, 0]} fontSize={0.07} color="#6366f1" anchorX="right" anchorY="middle" font={undefined}>
+      <Text position={[-WAVE_LENGTH / 2 - 0.1, WAVE_OFFSET, 0]} fontSize={0.08} color="#818cf8" anchorX="right" anchorY="middle" font={undefined}>
         |0⟩
       </Text>
 
       {/* |1⟩ wave label */}
-      <Text position={[-WAVE_LENGTH / 2 - 0.1, -WAVE_OFFSET, 0]} fontSize={0.07} color="#f87171" anchorX="right" anchorY="middle" font={undefined}>
+      <Text position={[-WAVE_LENGTH / 2 - 0.1, -WAVE_OFFSET, 0]} fontSize={0.08} color="#fca5a5" anchorX="right" anchorY="middle" font={undefined}>
         |1⟩
       </Text>
 
       {/* Phase indicator note */}
-      <Text position={[WAVE_LENGTH / 2 + 0.1, -WAVE_OFFSET, 0]} fontSize={0.05} color="#6a6d85" anchorX="left" anchorY="middle" font={undefined}>
+      <Text position={[WAVE_LENGTH / 2 + 0.1, -WAVE_OFFSET, 0]} fontSize={0.06} color="#94a3b8" anchorX="left" anchorY="middle" font={undefined}>
         color = phase
       </Text>
 
-      {/* |0⟩ wave — always blue */}
-      <WaveLine pointsRef={points0Ref} color="#6366f1" opacity={0.7} />
+      {/* |0⟩ wave — always indigo */}
+      <ThickWaveLine pointsRef={points0Ref} color="#818cf8" lineWidth={WAVE_LINE_WIDTH} />
       {/* |0⟩ baseline */}
       <Line
         points={[[-WAVE_LENGTH / 2, WAVE_OFFSET, 0], [WAVE_LENGTH / 2, WAVE_OFFSET, 0]]}
-        color="#3a3d52"
-        lineWidth={0.5}
+        color="#334155"
+        lineWidth={1.5}
         transparent
-        opacity={0.15}
+        opacity={0.5}
       />
 
       {/* |1⟩ wave — warm color, shifts with phase */}
-      <WaveLine pointsRef={points1Ref} colorRef={color1Ref} opacity={0.7} />
+      <ThickWaveLine pointsRef={points1Ref} colorRef={color1Ref} color="#f87171" lineWidth={WAVE_LINE_WIDTH} />
       {/* |1⟩ baseline */}
       <Line
         points={[[-WAVE_LENGTH / 2, -WAVE_OFFSET, 0], [WAVE_LENGTH / 2, -WAVE_OFFSET, 0]]}
-        color="#3a3d52"
-        lineWidth={0.5}
+        color="#334155"
+        lineWidth={1.5}
         transparent
-        opacity={0.15}
+        opacity={0.5}
       />
     </group>
   );
 }
 
-// Animated wave line that reads from a ref
-function WaveLine({
+/**
+ * Thick animated wave line using drei's Line (Line2 internally).
+ * Unlike raw THREE.Line, Line2 supports actual lineWidth on all platforms.
+ */
+function ThickWaveLine({
   pointsRef,
   color,
   colorRef,
-  opacity,
+  lineWidth = 4,
 }: {
   pointsRef: React.MutableRefObject<THREE.Vector3[]>;
   color?: string;
   colorRef?: React.MutableRefObject<THREE.Color>;
-  opacity: number;
+  lineWidth?: number;
 }) {
-  const lineRef = useRef<THREE.Line>(null);
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const lineRef = useRef<any>(null);
+  const posArr = useRef(new Float32Array(NUM_POINTS * 3));
 
   useFrame(() => {
     if (!lineRef.current) return;
-    const geom = lineRef.current.geometry;
-    const positions = geom.attributes.position;
-    if (!positions) return;
-
     const pts = pointsRef.current;
-    for (let i = 0; i < pts.length && i < positions.count; i++) {
-      positions.setXYZ(i, pts[i].x, pts[i].y, pts[i].z);
+    const arr = posArr.current;
+    for (let i = 0; i < pts.length; i++) {
+      arr[i * 3] = pts[i].x;
+      arr[i * 3 + 1] = pts[i].y;
+      arr[i * 3 + 2] = pts[i].z;
     }
-    positions.needsUpdate = true;
+    lineRef.current.geometry.setPositions(arr);
 
-    // Update color if using ref
     if (colorRef && lineRef.current.material) {
-      const mat = lineRef.current.material as THREE.LineBasicMaterial;
-      mat.color.copy(colorRef.current);
+      lineRef.current.material.color.copy(colorRef.current);
     }
   });
 
-  // Create initial points for the Line geometry
-  const initialPoints = useMemo(() =>
-    Array.from({ length: 60 }, (_, i) => {
-      const frac = i / 59;
-      return new THREE.Vector3(-1.2 + frac * 2.4, 0, 0);
-    }),
-  []);
+  const initialPoints = useMemo(
+    () =>
+      Array.from({ length: NUM_POINTS }, (_, i) => {
+        const frac = i / (NUM_POINTS - 1);
+        return new THREE.Vector3(-WAVE_LENGTH / 2 + frac * WAVE_LENGTH, 0, 0);
+      }),
+    [],
+  );
 
   return (
-    <line ref={lineRef as React.Ref<THREE.Line>}>
-      <bufferGeometry>
-        <bufferAttribute
-          attach="attributes-position"
-          count={initialPoints.length}
-          array={new Float32Array(initialPoints.flatMap((p) => [p.x, p.y, p.z]))}
-          itemSize={3}
-        />
-      </bufferGeometry>
-      <lineBasicMaterial
-        color={color ?? '#ffffff'}
-        transparent
-        opacity={opacity}
-        linewidth={1}
-      />
-    </line>
+    <Line
+      ref={lineRef}
+      points={initialPoints}
+      color={color ?? '#ffffff'}
+      lineWidth={lineWidth}
+    />
   );
 }

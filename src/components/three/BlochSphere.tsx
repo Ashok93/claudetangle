@@ -96,30 +96,31 @@ export function BlochSphere({ qubitIndex, totalQubits, position }: BlochSpherePr
   // Geometries
   const sphereGeo = useMemo(() => new THREE.SphereGeometry(radius, 32, 32), [radius]);
   const wireGeo = useMemo(() => new THREE.SphereGeometry(radius + 0.02, 16, 16), [radius]);
-  const ringGeo = useMemo(() => new THREE.TorusGeometry(radius, 0.008, 16, 64), [radius]);
+  const ringGeo = useMemo(() => new THREE.TorusGeometry(radius, 0.014, 16, 64), [radius]);
   const shaftGeo = useMemo(() => new THREE.CylinderGeometry(0.02, 0.02, 1, 8), []);
   const coneGeo = useMemo(() => new THREE.ConeGeometry(0.06, 0.12, 12), []);
 
   const shellMat = useMemo(() => new THREE.MeshStandardMaterial({
-    color: '#1c1e28',
+    color: '#4a5580',
     transparent: true,
-    opacity: 0.15,
-    roughness: 0.8,
-    metalness: 0.1,
+    opacity: 0.18,
+    roughness: 0.3,
+    metalness: 0.2,
     side: THREE.DoubleSide,
+    envMapIntensity: 0.5,
   }), []);
 
   const wireMat = useMemo(() => new THREE.MeshBasicMaterial({
-    color: '#3a3d52',
+    color: '#5a6590',
     wireframe: true,
     transparent: true,
-    opacity: 0.08,
+    opacity: 0.12,
   }), []);
 
   const ringMat = useMemo(() => new THREE.MeshBasicMaterial({
-    color: '#4a4d62',
+    color: '#6878b0',
     transparent: true,
-    opacity: 0.12,
+    opacity: 0.25,
   }), []);
 
   const arrowMat = useMemo(() => new THREE.MeshStandardMaterial({
@@ -149,8 +150,8 @@ export function BlochSphere({ qubitIndex, totalQubits, position }: BlochSpherePr
     if (sim === 'idle') {
       if (shellRef.current) {
         const mat = shellRef.current.material as THREE.MeshStandardMaterial;
-        mat.emissiveIntensity = 0.02 + Math.sin(Date.now() * 0.002) * 0.01;
-        mat.emissive.set('#1c1e28');
+        mat.emissiveIntensity = 0.05 + Math.sin(Date.now() * 0.002) * 0.02;
+        mat.emissive.set('#3040a0');
       }
       currentBloch.current.set(0, 1, 0);
       updateArrow(currentBloch.current);
@@ -224,9 +225,9 @@ export function BlochSphere({ qubitIndex, totalQubits, position }: BlochSpherePr
       if (flashRef.current > 0.05 || isSelected) {
         mat.emissive.copy(color);
       } else {
-        mat.emissive.set('#1c1e28');
+        mat.emissive.set('#3040a0');
       }
-      mat.opacity = isSelected ? 0.25 : 0.15;
+      mat.opacity = isSelected ? 0.25 : 0.18;
     }
   });
 
@@ -295,10 +296,10 @@ export function BlochSphere({ qubitIndex, totalQubits, position }: BlochSpherePr
       {/* Pole labels */}
       {showLabels && (
         <>
-          <Text position={[0, radius + 0.15, 0]} fontSize={0.12} color="#9b9db0" anchorX="center" anchorY="bottom">
+          <Text position={[0, radius + 0.15, 0]} fontSize={0.12} color="#94a3b8" anchorX="center" anchorY="bottom">
             |0⟩
           </Text>
-          <Text position={[0, -(radius + 0.15), 0]} fontSize={0.12} color="#9b9db0" anchorX="center" anchorY="top">
+          <Text position={[0, -(radius + 0.15), 0]} fontSize={0.12} color="#94a3b8" anchorX="center" anchorY="top">
             |1⟩
           </Text>
         </>

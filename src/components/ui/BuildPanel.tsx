@@ -1,7 +1,7 @@
 import { useCircuitStore } from '../../store/circuitStore';
 import { GATE_COLORS } from '../../lib/constants';
 import { GATE_INFO } from '../../lib/gateInfo';
-import { theme } from '../../lib/theme';
+import { theme, semantic } from '../../lib/theme';
 import type { GateType } from '../../types/circuit';
 
 interface PaletteItem {
@@ -67,18 +67,18 @@ export function BuildPanel() {
       style={{ background: theme.bg.surface, borderColor: theme.border.subtle, width: 220, minWidth: 220 }}
     >
       {/* Header */}
-      <div className="px-3 py-2 border-b" style={{ borderColor: theme.border.subtle }}>
-        <span className="text-[10px] font-semibold uppercase tracking-wider" style={{ color: theme.text.tertiary }}>
+      <div className="px-4 py-3 border-b" style={{ borderColor: theme.border.subtle }}>
+        <span className="text-[11px] font-semibold uppercase tracking-wider" style={{ color: theme.text.tertiary }}>
           Circuit Builder
         </span>
       </div>
 
       <div className="flex-1 overflow-y-auto">
         {/* Selected Qubit indicator */}
-        <div className="px-3 py-3 border-b" style={{ borderColor: theme.border.subtle }}>
+        <div className="px-4 py-3 border-b" style={{ borderColor: theme.border.subtle }}>
           <div className="flex items-center justify-between">
             <div>
-              <div className="text-[10px] uppercase tracking-wider mb-1" style={{ color: theme.text.tertiary }}>
+              <div className="text-[11px] uppercase tracking-wider mb-1" style={{ color: theme.text.tertiary }}>
                 Selected Qubit
               </div>
               <span className="text-lg font-mono font-bold" style={{ color: theme.accent.hover }}>
@@ -90,14 +90,14 @@ export function BuildPanel() {
               style={{ background: theme.accent.primary, boxShadow: `0 0 8px ${theme.accent.primary}` }}
             />
           </div>
-          <p className="text-[8px] mt-1 leading-relaxed" style={{ color: theme.text.tertiary }}>
+          <p className="text-[10px] mt-1 leading-relaxed" style={{ color: theme.text.tertiary }}>
             Click a qubit rail in the 3D view to select it.
           </p>
         </div>
 
         {/* Qubits */}
-        <div className="px-3 py-3 border-b" style={{ borderColor: theme.border.subtle }}>
-          <div className="text-[10px] uppercase tracking-wider mb-2" style={{ color: theme.text.tertiary }}>
+        <div className="px-4 py-3 border-b" style={{ borderColor: theme.border.subtle }}>
+          <div className="text-[11px] uppercase tracking-wider mb-2" style={{ color: theme.text.tertiary }}>
             Qubits
           </div>
           <div className="flex items-center gap-2">
@@ -122,18 +122,18 @@ export function BuildPanel() {
         </div>
 
         {/* Single-Qubit Gates */}
-        <div className="px-3 py-3 border-b" style={{ borderColor: theme.border.subtle }}>
-          <div className="text-[10px] uppercase tracking-wider mb-2" style={{ color: theme.text.tertiary }}>
+        <div className="px-4 py-3 border-b" style={{ borderColor: theme.border.subtle }}>
+          <div className="text-[11px] uppercase tracking-wider mb-2" style={{ color: theme.text.tertiary }}>
             Single-Qubit Gates
           </div>
-          <div className="grid grid-cols-2 gap-1.5">
+          <div className="grid grid-cols-2 gap-2">
             {SINGLE_GATES.map((item) => {
               const color = GATE_COLORS[item.type];
               return (
                 <button
                   key={item.type}
                   onClick={() => handleAddSingleGate(item.type)}
-                  className="flex items-center gap-2 px-2 py-1.5 rounded-lg transition-colors text-left border"
+                  className="flex items-center gap-2 px-3 py-2 rounded-lg transition-colors text-left border"
                   style={{ borderColor: color + '25', background: color + '08' }}
                   title={`Add ${item.description} on q${selectedQubit}`}
                 >
@@ -144,10 +144,10 @@ export function BuildPanel() {
                     {item.label}
                   </span>
                   <div className="flex flex-col min-w-0">
-                    <span className="text-[10px] truncate" style={{ color: theme.text.secondary }}>
+                    <span className="text-[11px] truncate" style={{ color: theme.text.secondary }}>
                       {item.description}
                     </span>
-                    <span className="text-[8px]" style={{ color: theme.text.tertiary }}>
+                    <span className="text-[10px]" style={{ color: theme.text.tertiary }}>
                       q{selectedQubit}
                     </span>
                   </div>
@@ -158,11 +158,11 @@ export function BuildPanel() {
         </div>
 
         {/* Multi-Qubit Gates */}
-        <div className="px-3 py-3 border-b" style={{ borderColor: theme.border.subtle }}>
-          <div className="text-[10px] uppercase tracking-wider mb-2" style={{ color: theme.text.tertiary }}>
+        <div className="px-4 py-3 border-b" style={{ borderColor: theme.border.subtle }}>
+          <div className="text-[11px] uppercase tracking-wider mb-2" style={{ color: theme.text.tertiary }}>
             Multi-Qubit Gates
           </div>
-          <div className="space-y-1.5">
+          <div className="space-y-2">
             {/* CX */}
             {(() => {
               const color = GATE_COLORS.cx;
@@ -172,7 +172,7 @@ export function BuildPanel() {
                 <button
                   onClick={handleAddCX}
                   disabled={disabled}
-                  className="w-full flex items-center gap-2 px-2 py-1.5 rounded-lg transition-colors text-left disabled:opacity-25 border"
+                  className="w-full flex items-center gap-2 px-3 py-2 rounded-lg transition-colors text-left disabled:opacity-25 border"
                   style={{ borderColor: color + '25', background: color + '08' }}
                   title={`Add CNOT: ctrl=q${selectedQubit}, target=q${target}`}
                 >
@@ -183,8 +183,8 @@ export function BuildPanel() {
                     CX
                   </span>
                   <div className="flex flex-col min-w-0">
-                    <span className="text-[10px]" style={{ color: theme.text.secondary }}>CNOT</span>
-                    <span className="text-[8px]" style={{ color: theme.text.tertiary }}>
+                    <span className="text-[11px]" style={{ color: theme.text.secondary }}>CNOT</span>
+                    <span className="text-[10px]" style={{ color: theme.text.tertiary }}>
                       ctrl q{selectedQubit} → target q{target}
                     </span>
                   </div>
@@ -201,7 +201,7 @@ export function BuildPanel() {
                 <button
                   onClick={handleAddCCX}
                   disabled={disabled}
-                  className="w-full flex items-center gap-2 px-2 py-1.5 rounded-lg transition-colors text-left disabled:opacity-25 border"
+                  className="w-full flex items-center gap-2 px-3 py-2 rounded-lg transition-colors text-left disabled:opacity-25 border"
                   style={{ borderColor: color + '25', background: color + '08' }}
                   title="Add Toffoli gate"
                 >
@@ -212,8 +212,8 @@ export function BuildPanel() {
                     CCX
                   </span>
                   <div className="flex flex-col min-w-0">
-                    <span className="text-[10px]" style={{ color: theme.text.secondary }}>Toffoli</span>
-                    <span className="text-[8px]" style={{ color: theme.text.tertiary }}>
+                    <span className="text-[11px]" style={{ color: theme.text.secondary }}>Toffoli</span>
+                    <span className="text-[10px]" style={{ color: theme.text.tertiary }}>
                       ctrl q{selectedQubit},q{available[0] ?? '?'} → q{available[1] ?? '?'}
                     </span>
                   </div>
@@ -225,20 +225,20 @@ export function BuildPanel() {
 
         {/* Selected Gate Info */}
         {selectedInfo && (
-          <div className="px-3 py-3 border-b" style={{ borderColor: theme.border.subtle }}>
-            <div className="text-[10px] uppercase tracking-wider mb-2" style={{ color: theme.text.tertiary }}>
+          <div className="px-4 py-3 border-b" style={{ borderColor: theme.border.subtle }}>
+            <div className="text-[11px] uppercase tracking-wider mb-2" style={{ color: theme.text.tertiary }}>
               Selected Gate
             </div>
             <div className="text-xs font-medium mb-1" style={{ color: selectedInfo.color }}>
               {selectedInfo.name}
             </div>
-            <p className="text-[10px] leading-relaxed mb-2" style={{ color: theme.text.secondary }}>
+            <p className="text-[11px] leading-relaxed mb-2" style={{ color: theme.text.secondary }}>
               {selectedInfo.oneLiner}
             </p>
             <button
               onClick={handleDelete}
-              className="w-full px-2 py-1 text-[10px] rounded transition-colors"
-              style={{ background: '#7f1d1d20', color: '#f87171', border: '1px solid #7f1d1d40' }}
+              className="w-full px-3 py-2 text-[11px] rounded transition-colors"
+              style={{ background: semantic.error + '15', color: semantic.error, border: `1px solid ${semantic.error + '30'}` }}
             >
               Delete Gate
             </button>
@@ -246,8 +246,8 @@ export function BuildPanel() {
         )}
 
         {/* Circuit info */}
-        <div className="px-3 py-3 border-b" style={{ borderColor: theme.border.subtle }}>
-          <div className="text-[10px] uppercase tracking-wider mb-2" style={{ color: theme.text.tertiary }}>
+        <div className="px-4 py-3 border-b" style={{ borderColor: theme.border.subtle }}>
+          <div className="text-[11px] uppercase tracking-wider mb-2" style={{ color: theme.text.tertiary }}>
             Circuit
           </div>
           <div className="flex items-center justify-between">
@@ -257,7 +257,7 @@ export function BuildPanel() {
             {gates.length > 0 && (
               <button
                 onClick={clearCircuit}
-                className="px-2 py-0.5 text-[10px] rounded transition-colors border"
+                className="px-2 py-0.5 text-[11px] rounded transition-colors border"
                 style={{ background: theme.bg.raised, color: theme.text.tertiary, borderColor: theme.border.subtle }}
               >
                 Clear All

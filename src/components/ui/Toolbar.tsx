@@ -1,5 +1,5 @@
 import { useCircuitStore } from '../../store/circuitStore';
-import { theme } from '../../lib/theme';
+import { theme, semantic } from '../../lib/theme';
 
 export function Toolbar() {
   const gates = useCircuitStore((s) => s.gates);
@@ -23,7 +23,7 @@ export function Toolbar() {
 
   return (
     <div
-      className="flex items-center justify-between px-4 py-2 border-b flex-shrink-0"
+      className="flex items-center justify-between px-4 py-2.5 border-b flex-shrink-0"
       style={{ background: theme.bg.surface, borderColor: theme.border.subtle }}
     >
       <div className="flex items-center gap-4">
@@ -31,7 +31,7 @@ export function Toolbar() {
         {(gates.length > 0 || uiMode === 'build') && (
           <button
             onClick={handleBackToPrograms}
-            className="px-2 py-1 text-xs rounded transition-colors border"
+            className="px-3 py-1.5 text-xs rounded transition-colors border"
             style={{
               background: theme.bg.raised,
               color: theme.text.secondary,
@@ -76,18 +76,18 @@ export function Toolbar() {
           <>
             <button
               onClick={() => setUIMode('learn')}
-              className="px-3 py-1 text-xs rounded-lg transition-colors border"
+              className="px-3 py-1.5 text-xs rounded-lg transition-colors border"
               style={{
-                background: '#4ade8010',
-                color: '#4ade80',
-                borderColor: '#4ade8030',
+                background: semantic.success + '10',
+                color: semantic.success,
+                borderColor: semantic.success + '30',
               }}
             >
               Learn
             </button>
             <button
               onClick={handleBuildYourOwn}
-              className="px-3 py-1 text-xs rounded-lg transition-colors border"
+              className="px-3 py-1.5 text-xs rounded-lg transition-colors border"
               style={{
                 background: theme.bg.raised,
                 color: theme.text.secondary,
@@ -100,7 +100,7 @@ export function Toolbar() {
         )}
 
         {uiMode === 'build' && (
-          <span className="text-[10px] px-2 py-0.5 rounded-full" style={{ background: theme.accent.primary + '20', color: theme.accent.hover }}>
+          <span className="text-[11px] px-2 py-0.5 rounded-full" style={{ background: theme.accent.primary + '20', color: theme.accent.hover }}>
             Build Mode
           </span>
         )}

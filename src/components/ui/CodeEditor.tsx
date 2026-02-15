@@ -4,7 +4,6 @@ import { EditorView, keymap, lineNumbers, highlightActiveLine, highlightActiveLi
 import { defaultKeymap, history, historyKeymap } from '@codemirror/commands';
 import { syntaxHighlighting, defaultHighlightStyle, bracketMatching } from '@codemirror/language';
 import { javascript } from '@codemirror/lang-javascript';
-import { oneDark } from '@codemirror/theme-one-dark';
 import { useCircuitStore } from '../../store/circuitStore';
 import { parseQASM } from '../../parser/qasmParser';
 import { generateQASM } from '../../parser/qasmGenerator';
@@ -12,6 +11,43 @@ import { theme } from '../../lib/theme';
 
 // Track whether the code change came from the user or from sync
 let isSyncing = false;
+
+// Custom light theme for CodeMirror
+const lightTheme = EditorView.theme({
+  '&': {
+    height: '100%',
+    fontSize: '14px',
+    backgroundColor: '#ffffff',
+  },
+  '.cm-scroller': {
+    overflow: 'auto',
+    fontFamily: "'JetBrains Mono', 'Fira Code', monospace",
+  },
+  '.cm-content': {
+    padding: '12px 0',
+    caretColor: '#4f46e5',
+  },
+  '.cm-gutters': {
+    backgroundColor: '#f8f9fc',
+    borderRight: '1px solid #e2e4ea',
+    color: '#8b90a5',
+  },
+  '.cm-activeLineGutter': {
+    backgroundColor: '#f0f1f5',
+  },
+  '.cm-activeLine': {
+    backgroundColor: '#f0f1f520',
+  },
+  '.cm-cursor': {
+    borderLeftColor: '#4f46e5',
+  },
+  '&.cm-focused .cm-selectionBackground, .cm-selectionBackground': {
+    backgroundColor: '#4f46e520',
+  },
+  '.cm-line': {
+    color: '#1a1d2d',
+  },
+});
 
 export function CodeEditor() {
   const viewRef = useRef<EditorView | null>(null);
@@ -55,15 +91,9 @@ export function CodeEditor() {
         bracketMatching(),
         syntaxHighlighting(defaultHighlightStyle),
         javascript(),
-        oneDark,
+        lightTheme,
         keymap.of([...defaultKeymap, ...historyKeymap]),
         updateListener,
-        EditorView.theme({
-          '&': { height: '100%', fontSize: '13px' },
-          '.cm-scroller': { overflow: 'auto', fontFamily: "'JetBrains Mono', 'Fira Code', monospace" },
-          '.cm-content': { padding: '8px 0' },
-          '.cm-gutters': { backgroundColor: theme.bg.raised, borderRight: `1px solid ${theme.border.subtle}` },
-        }),
       ],
     });
 
@@ -96,7 +126,7 @@ export function CodeEditor() {
   return (
     <div className="h-full flex flex-col">
       <div
-        className="flex items-center px-3 py-2 border-b"
+        className="flex items-center px-4 py-3 border-b"
         style={{ background: theme.bg.raised, borderColor: theme.border.subtle }}
       >
         <span className="text-xs font-mono" style={{ color: theme.text.tertiary }}>OpenQASM 2.0</span>

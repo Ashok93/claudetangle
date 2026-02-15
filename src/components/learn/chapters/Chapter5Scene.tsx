@@ -266,17 +266,17 @@ export function Chapter5Scene() {
       {/* ========== INTRO (steps 0-1) ========== */}
       {currentStep === 0 && (
         <>
-          <Text position={[0, 0.5, 0]} fontSize={0.22} color={theme.text.primary} anchorX="center" anchorY="middle" font={undefined}>
+          <Text position={[0, 0.5, 0]} fontSize={0.22} color="#e2e8f0" anchorX="center" anchorY="middle" font={undefined}>
             Quantum Circuits
           </Text>
-          <Text position={[0, 0.1, 0]} fontSize={0.09} color={theme.text.tertiary} anchorX="center" anchorY="middle" font={undefined}>
+          <Text position={[0, 0.1, 0]} fontSize={0.09} color="#94a3b8" anchorX="center" anchorY="middle" font={undefined}>
             Gates + Qubits + Measurement = Algorithms
           </Text>
         </>
       )}
 
       {currentStep === 1 && (
-        <Html position={[0, 0.3, 0]} center>
+        <Html position={[0, 0.3, 0]} center distanceFactor={5}>
           <div style={{ display: 'flex', flexDirection: 'column', gap: 10, alignItems: 'center' }}>
             <CircuitDiagram />
             <div style={{
@@ -331,7 +331,7 @@ export function Chapter5Scene() {
           </group>
 
           {/* Circuit diagram — positioned above */}
-          <Html position={[0, 1.6, 0]} center>
+          <Html position={[0, 1.6, 0]} center distanceFactor={5}>
             <div style={{ display: 'flex', flexDirection: 'column', gap: 6, alignItems: 'center' }}>
               <CircuitDiagram
                 highlightH={currentStep === 2}
@@ -357,7 +357,7 @@ export function Chapter5Scene() {
       {showChallenge && (
         <>
           {/* Challenge circuit diagram — top */}
-          <Html position={[0, 1.9, 0]} center>
+          <Html position={[0, 1.9, 0]} center distanceFactor={5}>
             <ChallengeCircuitDiagram subStep={subStep} />
           </Html>
 
@@ -392,11 +392,11 @@ export function Chapter5Scene() {
       {/* ========== FINALE (step 7) ========== */}
       {currentStep === 7 && (
         <>
-          <Text position={[0, 0.8, 0]} fontSize={0.16} color={theme.text.primary} anchorX="center" anchorY="middle" font={undefined}>
+          <Text position={[0, 0.8, 0]} fontSize={0.16} color="#e2e8f0" anchorX="center" anchorY="middle" font={undefined}>
             You're Ready!
           </Text>
 
-          <Html position={[0, 0.2, 0]} center>
+          <Html position={[0, 0.2, 0]} center distanceFactor={5}>
             <div style={{
               background: theme.bg.surface + 'f0',
               border: `1px solid ${theme.border.medium}`,

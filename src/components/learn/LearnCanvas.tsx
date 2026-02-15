@@ -15,12 +15,12 @@ export function LearnCanvas() {
     <Canvas
       camera={{ position: [0, 1, 4], fov: 50 }}
       gl={{ antialias: true, toneMapping: 3 }}
-      style={{ background: '#0f1117' }}
+      style={{ background: '#0e1525' }}
     >
-      <ambientLight intensity={0.25} />
-      <pointLight position={[10, 10, -5]} intensity={0.6} color="#ffffff" />
-      <pointLight position={[-10, -5, 15]} intensity={0.3} color="#f5f0e8" />
-      <pointLight position={[0, 5, 10]} intensity={0.2} color="#e8eaf6" />
+      <ambientLight intensity={0.3} />
+      <pointLight position={[10, 10, -5]} intensity={0.8} color="#ffffff" />
+      <pointLight position={[-10, -5, 15]} intensity={0.4} color="#c8d0f0" />
+      <pointLight position={[0, 5, 10]} intensity={0.3} color="#a0b0e0" />
 
       {chapter === 1 && <Chapter1Scene />}
       {chapter === 2 && <Chapter2Scene />}
@@ -38,7 +38,7 @@ export function LearnCanvas() {
 
       <EffectComposer>
         <Bloom
-          intensity={0.6}
+          intensity={0.5}
           luminanceThreshold={0.6}
           luminanceSmoothing={0.9}
           mipmapBlur

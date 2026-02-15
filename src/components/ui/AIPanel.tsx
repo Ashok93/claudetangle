@@ -3,7 +3,7 @@ import Markdown from 'react-markdown';
 import { useCircuitStore } from '../../store/circuitStore';
 import { generateQASM } from '../../parser/qasmGenerator';
 import { analyzeCircuit } from '../../lib/claude';
-import { theme } from '../../lib/theme';
+import { theme, semantic } from '../../lib/theme';
 
 export function AIPanel() {
   const [apiKey, setApiKey] = useState(() => localStorage.getItem('claude-api-key') || '');
@@ -56,7 +56,7 @@ export function AIPanel() {
   return (
     <div className="h-full flex flex-col border-l" style={{ background: theme.bg.surface, borderColor: theme.border.subtle }}>
       {/* Header */}
-      <div className="flex items-center justify-between px-3 py-2 border-b" style={{ borderColor: theme.border.subtle, background: theme.bg.raised }}>
+      <div className="flex items-center justify-between px-4 py-3 border-b" style={{ borderColor: theme.border.subtle, background: theme.bg.raised }}>
         <div className="flex items-center gap-2">
           <div className="w-2 h-2 rounded-full" style={{ background: theme.accent.primary }} />
           <span className="text-xs font-semibold uppercase tracking-wider" style={{ color: theme.accent.primary }}>AI Sidekick</span>
@@ -67,13 +67,13 @@ export function AIPanel() {
       </div>
 
       {/* API Key */}
-      <div className="px-3 py-2 border-b" style={{ borderColor: theme.border.subtle }}>
+      <div className="px-4 py-3 border-b" style={{ borderColor: theme.border.subtle }}>
         <input
           type="password"
           placeholder="Claude API Key"
           value={apiKey}
           onChange={(e) => handleApiKeyChange(e.target.value)}
-          className="w-full px-2 py-1 text-xs rounded focus:outline-none"
+          className="w-full px-2 py-1 text-sm rounded focus:outline-none"
           style={{
             background: theme.bg.raised,
             border: `1px solid ${theme.border.medium}`,
@@ -83,30 +83,30 @@ export function AIPanel() {
       </div>
 
       {/* Response area */}
-      <div className="flex-1 overflow-y-auto px-3 py-3">
+      <div className="flex-1 overflow-y-auto px-4 py-4">
         {error && (
-          <div className="text-xs px-2 py-1.5 rounded mb-2" style={{ color: '#f87171', background: '#7f1d1d20' }}>{error}</div>
+          <div className="text-sm px-2 py-1.5 rounded mb-2" style={{ color: semantic.error, background: semantic.error + '15' }}>{error}</div>
         )}
         {loading && (
-          <div className="flex items-center gap-2 text-xs" style={{ color: theme.accent.primary }}>
+          <div className="flex items-center gap-2 text-sm" style={{ color: theme.accent.primary }}>
             <div className="w-3 h-3 border-2 border-t-transparent rounded-full animate-spin" style={{ borderColor: theme.accent.primary, borderTopColor: 'transparent' }} />
             Analyzing circuit...
           </div>
         )}
         {response && !loading && (
-          <div className="prose prose-invert prose-sm max-w-none text-xs leading-relaxed" style={{ color: theme.text.secondary }}>
+          <div className="prose prose-sm max-w-none text-sm leading-relaxed" style={{ color: theme.text.secondary }}>
             <Markdown>{response}</Markdown>
           </div>
         )}
         {!response && !loading && !error && (
-          <div className="text-xs text-center mt-8" style={{ color: theme.text.tertiary }}>
+          <div className="text-sm text-center mt-8" style={{ color: theme.text.tertiary }}>
             Click "Analyze" to let Claude explain your quantum circuit
           </div>
         )}
       </div>
 
       {/* Input area */}
-      <div className="px-3 py-2 border-t" style={{ borderColor: theme.border.subtle, background: theme.bg.raised }}>
+      <div className="px-4 py-3 border-t" style={{ borderColor: theme.border.subtle, background: theme.bg.raised }}>
         <div className="flex gap-2 mb-2">
           <input
             type="text"
@@ -114,7 +114,7 @@ export function AIPanel() {
             onChange={(e) => setUserMessage(e.target.value)}
             onKeyDown={(e) => e.key === 'Enter' && handleAnalyze(userMessage || undefined)}
             placeholder="Ask about the circuit..."
-            className="flex-1 px-2 py-1 text-xs rounded focus:outline-none"
+            className="flex-1 px-2 py-1 text-sm rounded focus:outline-none"
             style={{
               background: theme.bg.surface,
               border: `1px solid ${theme.border.medium}`,
@@ -126,7 +126,7 @@ export function AIPanel() {
           <button
             onClick={() => handleAnalyze()}
             disabled={loading}
-            className="flex-1 px-2 py-1.5 text-xs text-white rounded transition-colors disabled:opacity-50"
+            className="flex-1 px-2 py-1.5 text-sm text-white rounded transition-colors disabled:opacity-50"
             style={{ background: theme.accent.primary }}
           >
             Analyze
@@ -134,7 +134,7 @@ export function AIPanel() {
           <button
             onClick={() => handleAnalyze("What happens if I measure all qubits? What are the possible outcomes and their probabilities?")}
             disabled={loading}
-            className="flex-1 px-2 py-1.5 text-xs rounded transition-colors border"
+            className="flex-1 px-2 py-1.5 text-sm rounded transition-colors border"
             style={{
               background: theme.bg.surface,
               color: theme.accent.primary,

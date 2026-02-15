@@ -3,7 +3,7 @@ import { useCircuitStore } from '../../store/circuitStore';
 import { CHAPTERS } from './chapters/chapterData';
 import { LearnCanvas } from './LearnCanvas';
 import { LearnOverlay } from './LearnOverlay';
-import { theme } from '../../lib/theme';
+import { theme, semantic } from '../../lib/theme';
 
 function ChapterSelect() {
   const startChapter = useLearnStore((s) => s.startChapter);
@@ -37,14 +37,14 @@ function ChapterSelect() {
                 className="text-left p-5 rounded-xl border transition-all duration-200"
                 style={{
                   background: theme.bg.raised,
-                  borderColor: isCompleted ? '#4ade8040' : theme.border.subtle,
+                  borderColor: isCompleted ? semantic.success + '40' : theme.border.subtle,
                 }}
                 onMouseEnter={(e) => {
                   e.currentTarget.style.borderColor = theme.accent.primary + '60';
                   e.currentTarget.style.background = theme.bg.surface;
                 }}
                 onMouseLeave={(e) => {
-                  e.currentTarget.style.borderColor = isCompleted ? '#4ade8040' : theme.border.subtle;
+                  e.currentTarget.style.borderColor = isCompleted ? semantic.success + '40' : theme.border.subtle;
                   e.currentTarget.style.background = theme.bg.raised;
                 }}
               >
@@ -53,8 +53,8 @@ function ChapterSelect() {
                     <span
                       className="text-xs font-bold px-2 py-0.5 rounded-full"
                       style={{
-                        background: isCompleted ? '#4ade8020' : theme.accent.primary + '20',
-                        color: isCompleted ? '#4ade80' : theme.accent.hover,
+                        background: isCompleted ? semantic.success + '20' : theme.accent.primary + '20',
+                        color: isCompleted ? semantic.success : theme.accent.hover,
                       }}
                     >
                       {isCompleted ? '\u2713' : chapter.id}
@@ -63,11 +63,11 @@ function ChapterSelect() {
                       {chapter.title}
                     </span>
                   </div>
-                  <span className="text-[10px]" style={{ color: theme.text.tertiary }}>
+                  <span className="text-[11px]" style={{ color: theme.text.tertiary }}>
                     {chapter.steps.length} steps
                   </span>
                 </div>
-                <p className="text-xs ml-9" style={{ color: theme.text.tertiary }}>
+                <p className="text-[13px] ml-9" style={{ color: theme.text.tertiary }}>
                   {chapter.subtitle}
                 </p>
               </button>

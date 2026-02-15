@@ -28,12 +28,12 @@ export function StateVector() {
   const currentIdx = stepStates.filter((s) => s.step >= 0 && s.step <= simulationStep).length;
 
   return (
-    <div className="px-4 py-2 border-b" style={{ borderColor: theme.border.subtle }}>
+    <div className="px-4 py-3 border-b" style={{ borderColor: theme.border.subtle }}>
       <div className="flex items-center justify-between mb-1.5">
-        <span className="text-[10px] uppercase tracking-wider" style={{ color: theme.text.tertiary }}>
+        <span className="text-[11px] uppercase tracking-wider" style={{ color: theme.text.tertiary }}>
           State Vector
         </span>
-        <span className="text-[10px] font-mono" style={{ color: theme.text.tertiary }}>
+        <span className="text-[11px] font-mono" style={{ color: theme.text.tertiary }}>
           Step {currentIdx} of {stepsWithGates}
         </span>
       </div>
@@ -60,7 +60,7 @@ export function StateVector() {
           <div
             key={prob.label}
             className="flex-1 text-center truncate"
-            style={{ fontSize: probs.length > 8 ? 0 : 7, color: theme.text.tertiary }}
+            style={{ fontSize: probs.length > 8 ? 0 : 10, color: theme.text.tertiary }}
           >
             {probs.length <= 8 ? prob.label : ''}
           </div>

@@ -94,8 +94,8 @@ function StepVisual({ visual }: { visual: string }) {
             {/* Hadamard */}
             <div className="flex flex-col items-center gap-2">
               <div className="w-12 h-12 rotate-45 border" style={{ borderColor: GATE_COLORS.h + '60', background: GATE_COLORS.h + '15' }} />
-              <span className="text-[10px] font-medium" style={{ color: GATE_COLORS.h }}>Hadamard</span>
-              <span className="text-[9px]" style={{ color: theme.text.tertiary }}>Superposition</span>
+              <span className="text-[11px] font-medium" style={{ color: GATE_COLORS.h }}>Hadamard</span>
+              <span className="text-[10px]" style={{ color: theme.text.tertiary }}>Superposition</span>
             </div>
             {/* CNOT */}
             <div className="flex flex-col items-center gap-2">
@@ -104,16 +104,16 @@ function StepVisual({ visual }: { visual: string }) {
                 <div className="absolute top-0 bottom-0 left-1/2 w-0.5 -translate-x-1/2" style={{ background: GATE_COLORS.cx + '60' }} />
                 <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-6 h-6 rounded-full border-2 flex items-center justify-center text-xs" style={{ borderColor: GATE_COLORS.cx, color: GATE_COLORS.cx }}>+</div>
               </div>
-              <span className="text-[10px] font-medium" style={{ color: GATE_COLORS.cx }}>CNOT</span>
-              <span className="text-[9px]" style={{ color: theme.text.tertiary }}>Entanglement</span>
+              <span className="text-[11px] font-medium" style={{ color: GATE_COLORS.cx }}>CNOT</span>
+              <span className="text-[10px]" style={{ color: theme.text.tertiary }}>Entanglement</span>
             </div>
             {/* Measure */}
             <div className="flex flex-col items-center gap-2">
               <div className="w-10 h-10 rounded-full border flex items-center justify-center" style={{ borderColor: GATE_COLORS.measure + '60', background: GATE_COLORS.measure + '15' }}>
                 <div className="w-3 h-3 rounded-full" style={{ background: GATE_COLORS.measure }} />
               </div>
-              <span className="text-[10px] font-medium" style={{ color: GATE_COLORS.measure }}>Measure</span>
-              <span className="text-[9px]" style={{ color: theme.text.tertiary }}>Collapse</span>
+              <span className="text-[11px] font-medium" style={{ color: GATE_COLORS.measure }}>Measure</span>
+              <span className="text-[10px]" style={{ color: theme.text.tertiary }}>Collapse</span>
             </div>
           </div>
         </div>
@@ -138,11 +138,11 @@ function StepVisual({ visual }: { visual: string }) {
                     opacity: bar.active ? 0.9 : 0.3,
                   }}
                 />
-                <span className="text-[10px] font-mono" style={{ color: theme.text.tertiary }}>{bar.label}</span>
+                <span className="text-[11px] font-mono" style={{ color: theme.text.tertiary }}>{bar.label}</span>
               </div>
             ))}
           </div>
-          <p className="text-xs text-center max-w-[200px]" style={{ color: theme.text.secondary }}>
+          <p className="text-[13px] text-center max-w-[200px]" style={{ color: theme.text.secondary }}>
             Bell State: always <span style={{ color: theme.accent.hover }}>|00⟩</span> or <span style={{ color: theme.accent.hover }}>|11⟩</span> — never mismatched. That's entanglement!
           </p>
         </div>
@@ -158,7 +158,7 @@ export function Onboarding({ onComplete }: OnboardingProps) {
   const isLast = step === STEPS.length - 1;
 
   return (
-    <div className="fixed inset-0 z-[90] flex items-center justify-center" style={{ background: theme.bg.base + 'f2', backdropFilter: 'blur(4px)' }}>
+    <div className="fixed inset-0 z-[90] flex items-center justify-center" style={{ background: theme.bg.base + 'f0', backdropFilter: 'blur(4px)' }}>
       <div className="w-full max-w-2xl mx-4">
         <div className="rounded-2xl overflow-hidden shadow-2xl border" style={{ background: theme.bg.surface, borderColor: theme.border.medium }}>
           {/* Visual area */}
@@ -172,7 +172,7 @@ export function Onboarding({ onComplete }: OnboardingProps) {
               <h2 className="text-xl font-bold" style={{ color: theme.text.primary }}>{current.title}</h2>
             </div>
             <p className="text-sm mb-4" style={{ color: theme.accent.hover }}>{current.subtitle}</p>
-            <div className="text-sm leading-relaxed whitespace-pre-line [&>p]:mb-3" style={{ color: theme.text.secondary }}>
+            <div className="text-base leading-relaxed whitespace-pre-line [&>p]:mb-3" style={{ color: theme.text.secondary }}>
               {current.body.split('\n\n').map((para, i) => (
                 <p key={i}>
                   {para.split(/(\*\*.*?\*\*)/).map((part, j) =>
@@ -237,7 +237,7 @@ export function Onboarding({ onComplete }: OnboardingProps) {
           {/* Skip link */}
           {!isLast && (
             <div className="px-8 pb-4 text-center">
-              <button onClick={onComplete} className="text-xs transition-colors" style={{ color: theme.text.tertiary }}>
+              <button onClick={onComplete} className="text-[13px] transition-colors" style={{ color: theme.text.tertiary }}>
                 Skip intro — I know quantum computing
               </button>
             </div>

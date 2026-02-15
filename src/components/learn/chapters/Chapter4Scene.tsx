@@ -122,7 +122,7 @@ export function Chapter4Scene() {
 
       {/* Measure button (step 3) */}
       {showMeasure && (
-        <Html position={[0, 1.6, 0]} center>
+        <Html position={[0, 1.6, 0]} center distanceFactor={5}>
           <button
             onClick={handleMeasure}
             style={{
@@ -152,7 +152,7 @@ export function Chapter4Scene() {
           }} />
           <GateButton3D gate="cx" label="CNOT" position={[0.4, 1.5, 0]} onClick={() => applyGate('cx')} />
 
-          <Html position={[1.3, 1.5, 0]} center>
+          <Html position={[1.3, 1.5, 0]} center distanceFactor={5}>
             <div style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
               <button
                 onClick={handleFreePlayMeasure}
@@ -205,7 +205,7 @@ export function Chapter4Scene() {
 
       {/* Measurement results — positioned between spheres */}
       {(currentStep === 3 || showFreePlay) && twoQubitResults && (
-        <Html position={[0, -1.0, 0]} center>
+        <Html position={[0, -1.0, 0]} center distanceFactor={5}>
           <div style={{
             background: theme.bg.surface + 'f0',
             border: `1px solid ${theme.border.medium}`,

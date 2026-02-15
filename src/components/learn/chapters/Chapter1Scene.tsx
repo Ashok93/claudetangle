@@ -45,7 +45,7 @@ function ClassicalBit() {
       <Text position={[0, 0, 0.32]} fontSize={0.35} color="#fff" anchorX="center" anchorY="middle" font={undefined}>
         {on ? '1' : '0'}
       </Text>
-      <Text position={[0, -0.55, 0]} fontSize={0.14} color={theme.text.secondary} anchorX="center" anchorY="top" font={undefined}>
+      <Text position={[0, -0.55, 0]} fontSize={0.14} color="#94a3b8" anchorX="center" anchorY="top" font={undefined}>
         Classical Bit
       </Text>
     </group>
@@ -109,7 +109,7 @@ export function Chapter1Scene() {
 
       {/* State buttons (step 2) */}
       {showStateButtons && (
-        <Html position={[1.3, 0.5, 0]} center>
+        <Html position={[1.3, 0.5, 0]} center distanceFactor={5}>
           <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
             <button
               onClick={() => setQubitState(0, 0, 0)}
@@ -158,52 +158,71 @@ export function Chapter1Scene() {
 
       {/* Probability + Phase panel (steps 4-5) */}
       {showProbDisplay && !showFreePlay && (
-        <Html position={[1.6, 0.3, 0]} center>
+        <Html position={[1.6, 0.3, 0]} center distanceFactor={5}>
           <div style={{
             background: theme.bg.surface + 'f0',
             border: `1px solid ${theme.border.medium}`,
             borderRadius: 10,
             padding: '10px 14px',
             backdropFilter: 'blur(8px)',
-            minWidth: 110,
+            minWidth: 130,
           }}>
-            <div style={{ fontSize: 10, color: theme.text.tertiary, marginBottom: 4 }}>Probability</div>
-            <div style={{ display: 'flex', alignItems: 'end', gap: 10, height: 40 }}>
+            <div style={{ fontSize: 11, color: theme.text.tertiary, marginBottom: 4 }}>Probability</div>
+            <div style={{ display: 'flex', alignItems: 'end', gap: 12, height: 44 }}>
               <div style={{ textAlign: 'center' }}>
                 <div style={{
-                  width: 24,
-                  height: Math.max(3, Number(prob0) * 0.38),
+                  width: 26,
+                  height: Math.max(3, Number(prob0) * 0.42),
                   background: theme.accent.primary,
                   borderRadius: '3px 3px 0 0',
                   transition: 'height 0.5s',
                 }} />
-                <div style={{ fontSize: 9, color: theme.text.secondary, marginTop: 2 }}>|0⟩ {prob0}%</div>
+                <div style={{ fontSize: 10, color: theme.text.secondary, marginTop: 2 }}>|0⟩ {prob0}%</div>
               </div>
               <div style={{ textAlign: 'center' }}>
                 <div style={{
-                  width: 24,
-                  height: Math.max(3, Number(prob1) * 0.38),
+                  width: 26,
+                  height: Math.max(3, Number(prob1) * 0.42),
                   background: '#f87171',
                   borderRadius: '3px 3px 0 0',
                   transition: 'height 0.5s',
                 }} />
-                <div style={{ fontSize: 9, color: theme.text.secondary, marginTop: 2 }}>|1⟩ {prob1}%</div>
+                <div style={{ fontSize: 10, color: theme.text.secondary, marginTop: 2 }}>|1⟩ {prob1}%</div>
               </div>
             </div>
 
-            {/* Phase display + controls */}
+            {/* Phase display + slider + controls */}
             <div style={{ borderTop: `1px solid ${theme.border.subtle}`, marginTop: 8, paddingTop: 6 }}>
-              <div style={{ fontSize: 10, color: theme.text.tertiary, marginBottom: 4 }}>Phase</div>
+              <div style={{ fontSize: 11, color: theme.text.tertiary, marginBottom: 4 }}>Phase</div>
               <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
                 <div style={{
                   width: 14, height: 14, borderRadius: 7,
                   background: `hsl(${hue}, 70%, 55%)`,
                   flexShrink: 0,
                 }} />
-                <span style={{ fontSize: 11, color: theme.text.primary, fontFamily: 'monospace' }}>
+                <span style={{ fontSize: 12, color: theme.text.primary, fontFamily: 'monospace', fontWeight: 600 }}>
                   {(q.phase * 180 / Math.PI).toFixed(0)}&deg;
                 </span>
               </div>
+              {/* Phase slider */}
+              <input
+                type="range"
+                min={0}
+                max={360}
+                step={1}
+                value={Math.round(((q.phase * 180 / Math.PI) % 360 + 360) % 360)}
+                onChange={(e) => {
+                  const deg = Number(e.target.value);
+                  setQubitState(0, q.amplitude, deg * Math.PI / 180);
+                  completeInteraction();
+                }}
+                style={{
+                  width: '100%',
+                  marginTop: 6,
+                  accentColor: `hsl(${hue}, 70%, 55%)`,
+                  cursor: 'pointer',
+                }}
+              />
               {showPhaseControls && (
                 <div style={{ display: 'flex', gap: 4, marginTop: 6 }}>
                   {[
@@ -219,8 +238,8 @@ export function Chapter1Scene() {
                         color: theme.accent.hover,
                         border: `1px solid ${theme.accent.primary}30`,
                         borderRadius: 5,
-                        padding: '3px 6px',
-                        fontSize: 9,
+                        padding: '3px 7px',
+                        fontSize: 10,
                         cursor: 'pointer',
                         fontWeight: 600,
                       }}
@@ -240,7 +259,7 @@ export function Chapter1Scene() {
         <>
           <GateButton3D gate="h" label="H" position={[-1.3, 0.8, 0]} onClick={() => applyGate('h')} />
 
-          <Html position={[1.3, 0.5, 0]} center>
+          <Html position={[1.3, 0.5, 0]} center distanceFactor={5}>
             <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
               <button
                 onClick={() => setQubitState(0, 0, 0)}

@@ -1,5 +1,5 @@
 import * as THREE from 'three';
-import { THEME_GATE_COLORS, theme } from './theme';
+import { THEME_GATE_COLORS } from './theme';
 import type { GateType } from '../types/circuit';
 
 // Layout
@@ -16,16 +16,16 @@ export const GATE_THREE_COLORS: Record<string, THREE.Color> = Object.fromEntries
   Object.entries(THEME_GATE_COLORS).map(([key, val]) => [key, new THREE.Color(val)])
 );
 
-// Rail colors — muted
-export const RAIL_COLOR = '#64748b';
-export const RAIL_EMISSIVE = '#475569';
+// Rail colors — visible on dark background
+export const RAIL_COLOR = '#3a4560';
+export const RAIL_EMISSIVE = '#4a5a80';
 
-// Scene
-export const BACKGROUND_COLOR = theme.bg.base;
-export const GRID_COLOR = theme.border.subtle;
+// Scene — dark navy 3D canvas for vivid visualization
+export const BACKGROUND_COLOR = '#0e1525';
+export const GRID_COLOR = '#1c2640';
 
-// Bloom — reduced
-export const BLOOM_INTENSITY = 0.6;
+// Bloom — punchy for dark background
+export const BLOOM_INTENSITY = 0.5;
 export const BLOOM_LUMINANCE_THRESHOLD = 0.6;
 export const BLOOM_LUMINANCE_SMOOTHING = 0.9;
 

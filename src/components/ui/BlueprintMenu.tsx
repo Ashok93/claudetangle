@@ -34,7 +34,7 @@ export function BlueprintMenu() {
           <div className="fixed inset-0 z-40" onClick={() => setIsOpen(false)} />
           <div
             className="absolute top-full mt-1 left-0 z-50 w-72 rounded-lg shadow-xl overflow-hidden border"
-            style={{ background: theme.bg.raised, borderColor: theme.border.medium }}
+            style={{ background: theme.bg.raised, borderColor: theme.border.medium, boxShadow: '0 4px 20px rgba(0,0,0,0.08)' }}
           >
             <div className="px-3 py-2 border-b" style={{ borderColor: theme.border.subtle }}>
               <span className="text-xs font-semibold uppercase tracking-wider" style={{ color: theme.accent.primary }}>
@@ -52,7 +52,7 @@ export function BlueprintMenu() {
               >
                 <div className="text-sm font-medium" style={{ color: theme.text.primary }}>{algo.name}</div>
                 <div className="text-xs mt-0.5" style={{ color: theme.text.tertiary }}>{algo.description}</div>
-                <div className="text-[10px] mt-1" style={{ color: theme.accent.hover, opacity: 0.6 }}>{algo.qubits} qubits</div>
+                <div className="text-[11px] mt-1" style={{ color: theme.accent.hover, opacity: 0.6 }}>{algo.qubits} qubits</div>
               </button>
             ))}
           </div>

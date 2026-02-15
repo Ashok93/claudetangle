@@ -50,29 +50,37 @@ export function GateButton3D({ gate, label, position, pulse, onClick, disabled }
         onPointerOver={() => { if (!disabled) document.body.style.cursor = 'pointer'; }}
         onPointerOut={() => { document.body.style.cursor = 'auto'; }}
       >
-        <sphereGeometry args={[0.18, 16, 16]} />
+        <sphereGeometry args={[0.22, 24, 24]} />
         <meshStandardMaterial
           color={color}
           emissive={color}
-          emissiveIntensity={0.4}
+          emissiveIntensity={0.5}
           transparent
-          opacity={disabled ? 0.3 : 0.9}
-          roughness={0.3}
-          metalness={0.5}
+          opacity={disabled ? 0.3 : 0.95}
+          roughness={0.2}
+          metalness={0.6}
         />
       </mesh>
 
       {/* Rotating ring */}
       <mesh ref={ringRef}>
-        <torusGeometry args={[0.24, 0.012, 8, 32]} />
-        <meshBasicMaterial color={color} transparent opacity={disabled ? 0.1 : 0.3} />
+        <torusGeometry args={[0.30, 0.016, 12, 48]} />
+        <meshStandardMaterial
+          color={color}
+          emissive={color}
+          emissiveIntensity={0.3}
+          transparent
+          opacity={disabled ? 0.15 : 0.5}
+          roughness={0.4}
+          metalness={0.3}
+        />
       </mesh>
 
       {/* Label */}
       <Text
-        position={[0, -0.35, 0]}
-        fontSize={0.13}
-        color={disabled ? '#5f6177' : color}
+        position={[0, -0.42, 0]}
+        fontSize={0.15}
+        color={disabled ? '#6878a0' : color}
         anchorX="center"
         anchorY="top"
         font={undefined}

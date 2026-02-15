@@ -85,7 +85,7 @@ export function Layout() {
           <div className="absolute top-2 left-2 flex gap-1 z-20">
             <button
               onClick={() => setShowEditor(!showEditor)}
-              className="px-2 py-1 text-[10px] rounded transition-colors border"
+              className="px-3 py-1.5 text-[11px] rounded transition-colors border"
               style={{
                 background: showEditor ? theme.accent.primary + '20' : theme.bg.raised,
                 color: showEditor ? theme.accent.hover : theme.text.tertiary,

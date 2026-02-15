@@ -125,9 +125,9 @@ export function LearnOverlay() {
         backdropFilter: 'blur(12px)',
       }}>
         <div style={{
-          maxWidth: 700,
+          maxWidth: 740,
           margin: '0 auto',
-          padding: '10px 20px',
+          padding: '14px 24px',
           display: 'flex',
           alignItems: 'center',
           gap: 16,
@@ -136,7 +136,7 @@ export function LearnOverlay() {
           <div style={{ flex: 1, minWidth: 0 }}>
             {step.character === 'qubit' && (
               <span style={{
-                fontSize: 9,
+                fontSize: 10,
                 color: theme.accent.hover,
                 fontWeight: 600,
                 letterSpacing: '0.05em',
@@ -147,7 +147,7 @@ export function LearnOverlay() {
               </span>
             )}
             <span style={{
-              fontSize: 13,
+              fontSize: 15,
               lineHeight: 1.5,
               color: theme.text.secondary,
             }}>
@@ -161,7 +161,7 @@ export function LearnOverlay() {
                 color: theme.accent.hover,
                 borderRadius: 12,
                 padding: '2px 10px',
-                fontSize: 11,
+                fontSize: 12,
                 fontWeight: 500,
                 marginLeft: 8,
                 animation: 'learnPulse 2s infinite',
@@ -183,7 +183,7 @@ export function LearnOverlay() {
                   border: 'none',
                   borderRadius: 8,
                   padding: '8px 16px',
-                  fontSize: 12,
+                  fontSize: 13,
                   fontWeight: 600,
                   cursor: 'pointer',
                   whiteSpace: 'nowrap',
@@ -200,7 +200,7 @@ export function LearnOverlay() {
                       background: 'none',
                       border: 'none',
                       color: theme.text.tertiary,
-                      fontSize: 12,
+                      fontSize: 13,
                       cursor: 'pointer',
                       padding: '4px 6px',
                     }}
@@ -217,7 +217,7 @@ export function LearnOverlay() {
                     border: canAdvance ? 'none' : `1px solid ${theme.border.subtle}`,
                     borderRadius: 7,
                     padding: '6px 16px',
-                    fontSize: 12,
+                    fontSize: 13,
                     fontWeight: 600,
                     cursor: canAdvance ? 'pointer' : 'default',
                     transition: 'all 0.2s',

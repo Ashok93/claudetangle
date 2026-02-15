@@ -24,30 +24,31 @@ export function LearnBlochSphere({ index, position, label, speechBubble }: Learn
 
   const sphereGeo = useMemo(() => new THREE.SphereGeometry(RADIUS, 32, 32), []);
   const wireGeo = useMemo(() => new THREE.SphereGeometry(RADIUS + 0.02, 16, 16), []);
-  const ringGeo = useMemo(() => new THREE.TorusGeometry(RADIUS, 0.008, 16, 64), []);
+  const ringGeo = useMemo(() => new THREE.TorusGeometry(RADIUS, 0.014, 16, 64), []);
   const shaftGeo = useMemo(() => new THREE.CylinderGeometry(0.025, 0.025, 1, 8), []);
   const coneGeo = useMemo(() => new THREE.ConeGeometry(0.07, 0.14, 12), []);
 
   const shellMat = useMemo(() => new THREE.MeshStandardMaterial({
-    color: '#1c1e28',
+    color: '#4a5580',
     transparent: true,
-    opacity: 0.15,
-    roughness: 0.8,
-    metalness: 0.1,
+    opacity: 0.18,
+    roughness: 0.3,
+    metalness: 0.2,
     side: THREE.DoubleSide,
+    envMapIntensity: 0.5,
   }), []);
 
   const wireMat = useMemo(() => new THREE.MeshBasicMaterial({
-    color: '#3a3d52',
+    color: '#5a6590',
     wireframe: true,
     transparent: true,
-    opacity: 0.08,
+    opacity: 0.12,
   }), []);
 
   const ringMat = useMemo(() => new THREE.MeshBasicMaterial({
-    color: '#4a4d62',
+    color: '#6878b0',
     transparent: true,
-    opacity: 0.12,
+    opacity: 0.25,
   }), []);
 
   const arrowMat = useMemo(() => new THREE.MeshStandardMaterial({
@@ -86,8 +87,8 @@ export function LearnBlochSphere({ index, position, label, speechBubble }: Learn
     // Gentle shell pulse
     if (shellRef.current) {
       const mat = shellRef.current.material as THREE.MeshStandardMaterial;
-      mat.emissiveIntensity = 0.02 + Math.sin(Date.now() * 0.002) * 0.01;
-      mat.emissive.set('#1c1e28');
+      mat.emissiveIntensity = 0.05 + Math.sin(Date.now() * 0.002) * 0.02;
+      mat.emissive.set('#3040a0');
     }
   });
 
@@ -124,10 +125,10 @@ export function LearnBlochSphere({ index, position, label, speechBubble }: Learn
       </group>
 
       {/* Pole labels — always visible */}
-      <Text position={[0, RADIUS + 0.18, 0]} fontSize={0.14} color="#9b9db0" anchorX="center" anchorY="bottom">
+      <Text position={[0, RADIUS + 0.18, 0]} fontSize={0.14} color="#94a3b8" anchorX="center" anchorY="bottom">
         |0⟩
       </Text>
-      <Text position={[0, -(RADIUS + 0.18), 0]} fontSize={0.14} color="#9b9db0" anchorX="center" anchorY="top">
+      <Text position={[0, -(RADIUS + 0.18), 0]} fontSize={0.14} color="#94a3b8" anchorX="center" anchorY="top">
         |1⟩
       </Text>
 
@@ -140,7 +141,7 @@ export function LearnBlochSphere({ index, position, label, speechBubble }: Learn
 
       {/* Speech bubble */}
       {speechBubble && (
-        <Html position={[0, RADIUS + 0.6, 0]} center style={{ pointerEvents: 'none' }}>
+        <Html position={[0, RADIUS + 0.6, 0]} center distanceFactor={5} style={{ pointerEvents: 'none' }}>
           <div style={{
             background: theme.bg.surface + 'f0',
             border: `1px solid ${theme.accent.primary}40`,

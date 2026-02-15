@@ -81,7 +81,7 @@ export function SimulationBar() {
 
   return (
     <div
-      className="flex items-center gap-3 px-4 py-1.5 border-b flex-shrink-0"
+      className="flex items-center gap-3 px-4 py-2 border-b flex-shrink-0"
       style={{
         background: theme.bg.surface,
         borderColor: theme.border.subtle,
@@ -183,7 +183,7 @@ export function SimulationBar() {
             <button
               key={speed}
               onClick={() => setSimulationSpeed(speed)}
-              className="px-1.5 py-0.5 text-[10px] font-mono rounded transition-colors"
+              className="px-1.5 py-0.5 text-[11px] font-mono rounded transition-colors"
               style={{
                 background: simulationSpeed === speed ? theme.accent.primary : theme.bg.raised,
                 color: simulationSpeed === speed ? '#fff' : theme.text.tertiary,

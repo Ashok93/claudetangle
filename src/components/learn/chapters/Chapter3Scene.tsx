@@ -123,7 +123,7 @@ export function Chapter3Scene() {
 
       {/* Measure button (step 1) */}
       {showMeasureButton && (
-        <Html position={[1.4, 0.5, 0]} center>
+        <Html position={[1.4, 0.5, 0]} center distanceFactor={5}>
           <button
             onClick={() => {
               resetQubits();
@@ -151,7 +151,7 @@ export function Chapter3Scene() {
 
       {/* Measurement result display (step 1) */}
       {currentStep === 1 && measurementResult !== null && (
-        <Html position={[1.4, -0.2, 0]} center>
+        <Html position={[1.4, -0.2, 0]} center distanceFactor={5}>
           <div style={{
             background: theme.bg.surface + 'f0',
             border: `1px solid ${theme.border.medium}`,
@@ -174,7 +174,7 @@ export function Chapter3Scene() {
 
       {/* Run 100x button (step 2) */}
       {showRun100Step2 && (
-        <Html position={[1.4, 0.8, 0]} center>
+        <Html position={[1.4, 0.8, 0]} center distanceFactor={5}>
           <button
             onClick={handleRun100}
             disabled={isAnimating}
@@ -197,7 +197,7 @@ export function Chapter3Scene() {
 
       {/* Nudge button (step 4) */}
       {showNudge && (
-        <Html position={[1.4, 0.5, 0]} center>
+        <Html position={[1.4, 0.5, 0]} center distanceFactor={5}>
           <div style={{ display: 'flex', flexDirection: 'column', gap: 8, alignItems: 'center' }}>
             <button
               onClick={handleNudge}
@@ -224,7 +224,7 @@ export function Chapter3Scene() {
 
       {/* Run 100x button (step 5 — skewed) */}
       {showRun100Step5 && (
-        <Html position={[1.4, 0.8, 0]} center>
+        <Html position={[1.4, 0.8, 0]} center distanceFactor={5}>
           <button
             onClick={handleRun100}
             disabled={isAnimating}
@@ -255,7 +255,7 @@ export function Chapter3Scene() {
             setTimeout(() => applyGate('h'), 50);
           }} />
 
-          <Html position={[1.4, 0.8, 0]} center>
+          <Html position={[1.4, 0.8, 0]} center distanceFactor={5}>
             <div style={{ display: 'flex', flexDirection: 'column', gap: 6, alignItems: 'center' }}>
               <button
                 onClick={handleFreePlayMeasure}
@@ -295,7 +295,7 @@ export function Chapter3Scene() {
 
       {/* Histogram */}
       {showHistogram && (
-        <Html position={[1.2, 0, 0]} center>
+        <Html position={[1.2, 0, 0]} center distanceFactor={5}>
           <div style={{
             background: theme.bg.surface + 'f0',
             border: `1px solid ${theme.border.medium}`,

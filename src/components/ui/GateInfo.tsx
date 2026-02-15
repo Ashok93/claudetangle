@@ -1,6 +1,6 @@
 import { useCircuitStore } from '../../store/circuitStore';
 import { GATE_INFO } from '../../lib/gateInfo';
-import { theme } from '../../lib/theme';
+import { theme, semantic } from '../../lib/theme';
 
 export function GateInfo() {
   const selectedGateId = useCircuitStore((s) => s.selectedGateId);
@@ -19,10 +19,10 @@ export function GateInfo() {
   return (
     <div
       className="absolute top-14 right-4 z-30 w-72 rounded-xl shadow-2xl overflow-hidden border"
-      style={{ background: theme.bg.surface + 'f2', borderColor: theme.border.medium, backdropFilter: 'blur(12px)' }}
+      style={{ background: theme.bg.surface + 'f8', borderColor: theme.border.medium, backdropFilter: 'blur(12px)', boxShadow: '0 4px 20px rgba(0,0,0,0.08)' }}
     >
       {/* Header */}
-      <div className="px-4 py-3 border-b flex items-center gap-3" style={{ borderColor: theme.border.subtle }}>
+      <div className="px-5 py-4 border-b flex items-center gap-3" style={{ borderColor: theme.border.subtle }}>
         <div
           className="w-9 h-9 rounded-lg flex items-center justify-center text-sm font-bold border"
           style={{
@@ -35,7 +35,7 @@ export function GateInfo() {
         </div>
         <div className="flex-1">
           <div className="text-sm font-semibold" style={{ color: theme.text.primary }}>{info.name}</div>
-          <div className="text-[10px] uppercase tracking-wider" style={{ color: info.color }}>
+          <div className="text-[11px] uppercase tracking-wider" style={{ color: info.color }}>
             {info.quantumConcept}
           </div>
         </div>
@@ -48,7 +48,7 @@ export function GateInfo() {
       </div>
 
       {/* Body */}
-      <div className="px-4 py-3 space-y-3">
+      <div className="px-5 py-4 space-y-3">
         <p className="text-sm font-medium leading-snug" style={{ color: theme.text.primary }}>{info.oneLiner}</p>
 
         <div>
@@ -62,7 +62,7 @@ export function GateInfo() {
         </div>
 
         <div className="flex items-center gap-3 pt-1 border-t" style={{ borderColor: theme.border.subtle }}>
-          <div className="text-[10px]" style={{ color: theme.text.tertiary }}>
+          <div className="text-[11px]" style={{ color: theme.text.tertiary }}>
             Target: q[{gate.targets.join(', ')}]
             {gate.controls && ` | Control: q[${gate.controls.join(', ')}]`}
             {' | '}Step {gate.step}
@@ -70,10 +70,10 @@ export function GateInfo() {
           <div className="flex-1" />
           <button
             onClick={() => { removeGate(selectedGateId); selectGate(null); }}
-            className="text-[10px] transition-colors"
-            style={{ color: '#f8717180' }}
-            onMouseEnter={(e) => { e.currentTarget.style.color = '#f87171'; }}
-            onMouseLeave={(e) => { e.currentTarget.style.color = '#f8717180'; }}
+            className="text-[11px] transition-colors"
+            style={{ color: semantic.error + '80' }}
+            onMouseEnter={(e) => { e.currentTarget.style.color = semantic.error; }}
+            onMouseLeave={(e) => { e.currentTarget.style.color = semantic.error + '80'; }}
           >
             Remove
           </button>

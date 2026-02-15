@@ -82,11 +82,11 @@ function SceneContent() {
 
   return (
     <>
-      {/* Lighting — neutral white/warm, no colored point lights */}
-      <ambientLight intensity={0.25} />
-      <pointLight position={[10, 10, -5]} intensity={0.6} color="#ffffff" />
-      <pointLight position={[-10, -5, 15]} intensity={0.3} color="#f5f0e8" />
-      <pointLight position={[0, 5, 10]} intensity={0.2} color="#e8eaf6" />
+      {/* Lighting — balanced for dark canvas */}
+      <ambientLight intensity={0.3} />
+      <pointLight position={[10, 10, -5]} intensity={0.8} color="#ffffff" />
+      <pointLight position={[-10, -5, 15]} intensity={0.4} color="#c8d0f0" />
+      <pointLight position={[0, 5, 10]} intensity={0.3} color="#a0b0e0" />
 
       {/* No Stars background */}
 
