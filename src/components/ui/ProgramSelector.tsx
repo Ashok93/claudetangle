@@ -138,6 +138,45 @@ export function ProgramSelector() {
           </p>
         </button>
 
+        {/* Sandbox section */}
+        <button
+          onClick={() => {
+            setFading(true);
+            setTimeout(() => setUIMode('sandbox'), 250);
+          }}
+          className="w-full text-left px-5 py-4 rounded-xl border transition-all duration-200 relative overflow-hidden"
+          style={{
+            background: theme.bg.surface,
+            borderColor: '#0891b2' + '50',
+            boxShadow: '0 1px 4px rgba(0,0,0,0.06)',
+          }}
+          onMouseEnter={(e) => {
+            e.currentTarget.style.borderColor = '#0891b2' + '80';
+            e.currentTarget.style.boxShadow = '0 6px 20px rgba(0,0,0,0.10)';
+            e.currentTarget.style.transform = 'translateY(-1px)';
+          }}
+          onMouseLeave={(e) => {
+            e.currentTarget.style.borderColor = '#0891b2' + '50';
+            e.currentTarget.style.boxShadow = '0 1px 4px rgba(0,0,0,0.06)';
+            e.currentTarget.style.transform = 'translateY(0)';
+          }}
+        >
+          <div className="flex items-center gap-3 mb-1">
+            <span className="text-[16px] font-bold" style={{ color: theme.text.primary }}>
+              Think in Quantum
+            </span>
+            <span
+              className="text-[11px] px-2 py-0.5 rounded-full font-medium"
+              style={{ background: '#0891b2' + '15', color: '#0891b2' }}
+            >
+              Sandbox
+            </span>
+          </div>
+          <p className="text-[13px] leading-relaxed" style={{ color: theme.text.secondary }}>
+            Build quantum intuition — apply gates, see Bloch spheres animate, and explore entanglement with 1-4 qubits in real time.
+          </p>
+        </button>
+
         {/* Basics section */}
         <div className="w-full">
           <div className="flex items-center gap-3 mb-3">

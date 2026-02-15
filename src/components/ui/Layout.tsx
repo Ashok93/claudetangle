@@ -7,6 +7,7 @@ import { OutputPanel } from './OutputPanel';
 import { SimulationBar } from './SimulationBar';
 import { ProgramSelector } from './ProgramSelector';
 import { LearnMode } from '../learn/LearnMode';
+import { SandboxMode } from '../sandbox/SandboxMode';
 import { useCircuitStore } from '../../store/circuitStore';
 import { theme } from '../../lib/theme';
 
@@ -40,6 +41,16 @@ export function Layout() {
     document.addEventListener('mousemove', onMouseMove);
     document.addEventListener('mouseup', onMouseUp);
   }, [editorWidth]);
+
+  if (uiMode === 'sandbox') {
+    return (
+      <div className="h-dvh w-screen flex flex-col overflow-hidden" style={{ background: theme.bg.base }}>
+        <div className="flex-1 overflow-hidden">
+          <SandboxMode />
+        </div>
+      </div>
+    );
+  }
 
   if (uiMode === 'learn') {
     return (

@@ -4,7 +4,7 @@ import type { Gate, GateType } from '../types/circuit';
 import { simulateCircuit, type StepState } from '../lib/quantumSim';
 
 export type SimulationState = 'idle' | 'running' | 'complete';
-export type UIMode = 'explore' | 'build' | 'learn';
+export type UIMode = 'explore' | 'build' | 'learn' | 'sandbox';
 
 export interface OutputProbability {
   state: string;    // e.g., "|00⟩"
