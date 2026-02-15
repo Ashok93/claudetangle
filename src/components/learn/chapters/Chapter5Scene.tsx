@@ -6,7 +6,7 @@ import { useLearnStore } from '../../../store/learnStore';
 import { LearnBlochSphere } from '../LearnBlochSphere';
 import { GateButton3D } from '../GateButton3D';
 import { QuantumWaveLearn } from '../QuantumWaveLearn';
-import { theme } from '../../../lib/theme';
+import { theme, theme3d } from '../../../lib/theme';
 
 // Decorative rotating mini-qubit
 function MiniQubit({ position, color }: { position: [number, number, number]; color: string }) {
@@ -390,38 +390,49 @@ export function Chapter5Scene() {
       {/* ========== FINALE (step 7) ========== */}
       {currentStep === 7 && (
         <>
-          <Text position={[0, 0.8, 0]} fontSize={0.16} color="#e2e8f0" anchorX="center" anchorY="middle" font={undefined}>
-            You're Ready!
-          </Text>
-
-          <Html position={[0, 0.2, 0]} center distanceFactor={5}>
+          <Html position={[0, 0.3, 0]} center distanceFactor={5}>
             <div style={{
-              background: theme.bg.surface + 'f0',
-              border: `1px solid ${theme.border.medium}`,
-              borderRadius: 12,
-              padding: '14px 20px',
-              backdropFilter: 'blur(12px)',
+              background: theme3d.bg.surface + 'f0',
+              border: `1px solid ${theme3d.border.medium}`,
+              borderRadius: 14,
+              padding: '20px 24px',
+              backdropFilter: 'blur(16px)',
               maxWidth: 300,
               textAlign: 'center',
+              boxShadow: '0 8px 32px rgba(0,0,0,0.5)',
             }}>
-              <div style={{ fontSize: 11, color: theme.text.secondary, lineHeight: 1.6, marginBottom: 8 }}>
+              {/* Title inside card */}
+              <div style={{
+                fontSize: 20,
+                fontWeight: 700,
+                color: theme3d.text.primary,
+                marginBottom: 4,
+              }}>
+                You're Ready!
+              </div>
+              <div style={{
+                fontSize: 11,
+                color: theme3d.text.tertiary,
+                marginBottom: 14,
+              }}>
                 Try building in the Circuit Explorer:
               </div>
-              <div style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
+
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
                 {[
                   { name: 'Bell State', desc: 'H + CNOT (you just did this!)' },
                   { name: 'GHZ State', desc: 'H + CNOT + CNOT (3-qubit entanglement)' },
                   { name: 'Quantum Teleportation', desc: 'Transfer a state using entanglement' },
                 ].map((item) => (
                   <div key={item.name} style={{
-                    background: theme.bg.raised,
-                    border: `1px solid ${theme.border.subtle}`,
-                    borderRadius: 6,
-                    padding: '5px 10px',
+                    background: theme3d.bg.raised,
+                    border: `1px solid ${theme3d.border.subtle}`,
+                    borderRadius: 8,
+                    padding: '8px 12px',
                     textAlign: 'left',
                   }}>
-                    <div style={{ fontSize: 11, color: theme.accent.hover, fontWeight: 600 }}>{item.name}</div>
-                    <div style={{ fontSize: 9, color: theme.text.tertiary }}>{item.desc}</div>
+                    <div style={{ fontSize: 12, color: theme3d.accent.hover, fontWeight: 600 }}>{item.name}</div>
+                    <div style={{ fontSize: 10, color: theme3d.text.tertiary, lineHeight: 1.4 }}>{item.desc}</div>
                   </div>
                 ))}
               </div>
