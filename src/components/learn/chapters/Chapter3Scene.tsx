@@ -123,7 +123,7 @@ export function Chapter3Scene() {
 
       {/* Measure button (step 1) */}
       {showMeasureButton && (
-        <Html position={[1.4, 0.5, 0]} center distanceFactor={5}>
+        <Html position={[1.4, 0.9, 0]} center distanceFactor={5}>
           <button
             onClick={() => {
               resetQubits();
@@ -151,7 +151,7 @@ export function Chapter3Scene() {
 
       {/* Measurement result display (step 1) */}
       {currentStep === 1 && measurementResult !== null && (
-        <Html position={[1.4, -0.2, 0]} center distanceFactor={5}>
+        <Html position={[1.4, 0.4, 0]} center distanceFactor={5}>
           <div style={{
             background: theme.bg.surface + 'f0',
             border: `1px solid ${theme.border.medium}`,
@@ -295,7 +295,7 @@ export function Chapter3Scene() {
 
       {/* Histogram */}
       {showHistogram && (
-        <Html position={[1.2, 0, 0]} center distanceFactor={5}>
+        <Html position={[1.2, -0.4, 0]} center distanceFactor={5}>
           <div style={{
             background: theme.bg.surface + 'f0',
             border: `1px solid ${theme.border.medium}`,
