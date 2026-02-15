@@ -31,10 +31,22 @@ export function Chapter3Scene() {
     if (currentStep === 0) {
       resetQubits();
       setTimeout(() => applyGate('h'), 300);
+    } else if (currentStep === 2) {
+      // Run 100 step: restore superposition so measurements show ~50/50
+      resetQubits();
+      setTimeout(() => applyGate('h'), 50);
     } else if (currentStep === 4) {
       // Nudge step: reset to superposition first, user clicks Nudge to tilt
       resetQubits();
       setTimeout(() => applyGate('h'), 50);
+    } else if (currentStep === 5) {
+      // Run 100 on nudged state: re-apply nudge to ensure amplitude is correct
+      // (qubit should already be at 0.75 from step 4, but clear history)
+      resetQubits();
+      setTimeout(() => {
+        applyGate('h');
+        setTimeout(() => setQubitState(0, 0.75, useLearnStore.getState().qubits[0].phase), 50);
+      }, 50);
     } else if (currentStep === 6) {
       // Free play: start fresh
       resetQubits();
@@ -110,20 +122,23 @@ export function Chapter3Scene() {
     currentStep === 6 ? "Set my state and measure!" :
     undefined;
 
+  // Fixed positions — no shifting on histogram appearance
+  const sphereX = -0.4;
+
   return (
     <>
       <LearnBlochSphere
         index={0}
-        position={[showHistogram ? -0.6 : 0, 0.3, 0]}
+        position={[sphereX, 0.3, 0]}
         speechBubble={speechBubble}
       />
 
       {/* Wave visualization */}
-      <QuantumWaveLearn index={0} position={[showHistogram ? -0.6 : 0, -1.1, 0]} />
+      <QuantumWaveLearn index={0} position={[sphereX, -1.1, 0]} />
 
       {/* Measure button (step 1) */}
       {showMeasureButton && (
-        <Html position={[1.4, 0.9, 0]} center distanceFactor={5}>
+        <Html position={[1.5, 0.8, 0]} center distanceFactor={5}>
           <button
             onClick={() => {
               resetQubits();
@@ -151,7 +166,7 @@ export function Chapter3Scene() {
 
       {/* Measurement result display (step 1) */}
       {currentStep === 1 && measurementResult !== null && (
-        <Html position={[1.4, 0.4, 0]} center distanceFactor={5}>
+        <Html position={[1.5, 0.2, 0]} center distanceFactor={5}>
           <div style={{
             background: theme.bg.surface + 'f0',
             border: `1px solid ${theme.border.medium}`,
@@ -174,7 +189,7 @@ export function Chapter3Scene() {
 
       {/* Run 100x button (step 2) */}
       {showRun100Step2 && (
-        <Html position={[1.4, 0.8, 0]} center distanceFactor={5}>
+        <Html position={[1.5, 0.8, 0]} center distanceFactor={5}>
           <button
             onClick={handleRun100}
             disabled={isAnimating}
@@ -197,7 +212,7 @@ export function Chapter3Scene() {
 
       {/* Nudge button (step 4) */}
       {showNudge && (
-        <Html position={[1.4, 0.5, 0]} center distanceFactor={5}>
+        <Html position={[1.5, 0.5, 0]} center distanceFactor={5}>
           <div style={{ display: 'flex', flexDirection: 'column', gap: 8, alignItems: 'center' }}>
             <button
               onClick={handleNudge}
@@ -224,7 +239,7 @@ export function Chapter3Scene() {
 
       {/* Run 100x button (step 5 — skewed) */}
       {showRun100Step5 && (
-        <Html position={[1.4, 0.8, 0]} center distanceFactor={5}>
+        <Html position={[1.5, 0.8, 0]} center distanceFactor={5}>
           <button
             onClick={handleRun100}
             disabled={isAnimating}
@@ -255,7 +270,7 @@ export function Chapter3Scene() {
             setTimeout(() => applyGate('h'), 50);
           }} />
 
-          <Html position={[1.4, 0.8, 0]} center distanceFactor={5}>
+          <Html position={[1.5, 0.8, 0]} center distanceFactor={5}>
             <div style={{ display: 'flex', flexDirection: 'column', gap: 6, alignItems: 'center' }}>
               <button
                 onClick={handleFreePlayMeasure}
@@ -295,28 +310,34 @@ export function Chapter3Scene() {
 
       {/* Histogram */}
       {showHistogram && (
-        <Html position={[1.2, -0.4, 0]} center distanceFactor={5}>
+        <Html position={[1.5, -0.2, 0]} center distanceFactor={5}>
           <div style={{
             background: theme.bg.surface + 'f0',
             border: `1px solid ${theme.border.medium}`,
             borderRadius: 10,
             padding: '10px 14px',
             backdropFilter: 'blur(8px)',
-            minWidth: 130,
+            minWidth: 140,
           }}>
             <div style={{ fontSize: 10, color: theme.text.tertiary, marginBottom: 6 }}>
               {total} measurement{total !== 1 ? 's' : ''}
             </div>
-            <div style={{ display: 'flex', alignItems: 'end', gap: 14, height: 60 }}>
+            <div style={{ display: 'flex', gap: 14 }}>
               <div style={{ textAlign: 'center', flex: 1 }}>
                 <div style={{
-                  width: 36,
-                  height: Math.max(3, (zeros / Math.max(total, 1)) * 50),
-                  background: theme.accent.primary,
-                  borderRadius: '3px 3px 0 0',
-                  transition: 'height 0.15s ease-out',
-                  margin: '0 auto',
-                }} />
+                  height: 50,
+                  display: 'flex',
+                  alignItems: 'flex-end',
+                  justifyContent: 'center',
+                }}>
+                  <div style={{
+                    width: 36,
+                    height: Math.max(3, (zeros / Math.max(total, 1)) * 48),
+                    background: theme.accent.primary,
+                    borderRadius: '3px 3px 0 0',
+                    transition: 'height 0.15s ease-out',
+                  }} />
+                </div>
                 <div style={{ fontSize: 9, color: theme.text.secondary, marginTop: 3 }}>|0⟩</div>
                 <div style={{ fontSize: 11, color: theme.text.primary, fontFamily: 'monospace', fontWeight: 600 }}>
                   {total > 0 ? ((zeros / total) * 100).toFixed(0) : 0}%
@@ -324,13 +345,19 @@ export function Chapter3Scene() {
               </div>
               <div style={{ textAlign: 'center', flex: 1 }}>
                 <div style={{
-                  width: 36,
-                  height: Math.max(3, (ones / Math.max(total, 1)) * 50),
-                  background: '#f87171',
-                  borderRadius: '3px 3px 0 0',
-                  transition: 'height 0.15s ease-out',
-                  margin: '0 auto',
-                }} />
+                  height: 50,
+                  display: 'flex',
+                  alignItems: 'flex-end',
+                  justifyContent: 'center',
+                }}>
+                  <div style={{
+                    width: 36,
+                    height: Math.max(3, (ones / Math.max(total, 1)) * 48),
+                    background: '#f87171',
+                    borderRadius: '3px 3px 0 0',
+                    transition: 'height 0.15s ease-out',
+                  }} />
+                </div>
                 <div style={{ fontSize: 9, color: theme.text.secondary, marginTop: 3 }}>|1⟩</div>
                 <div style={{ fontSize: 11, color: theme.text.primary, fontFamily: 'monospace', fontWeight: 600 }}>
                   {total > 0 ? ((ones / total) * 100).toFixed(0) : 0}%
