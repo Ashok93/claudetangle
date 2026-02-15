@@ -191,7 +191,6 @@ export function Chapter5Scene() {
   const resetQubits = useLearnStore((s) => s.resetQubits);
   const subStep = useLearnStore((s) => s.subStep);
   const completeInteraction = useLearnStore((s) => s.completeInteraction);
-  const isEntangled = useLearnStore((s) => s.isEntangled);
   const prevStepRef = useRef(currentStep);
 
   // Setup state for each step
@@ -245,7 +244,6 @@ export function Chapter5Scene() {
   // Determine scene mode
   const showBellTrace = currentStep >= 2 && currentStep <= 4;
   const showChallenge = currentStep === 5 || currentStep === 6;
-  const showIntro = currentStep <= 1;
 
   // State text for tracing
   const getStateText = () => {

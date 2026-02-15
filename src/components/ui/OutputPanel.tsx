@@ -8,7 +8,6 @@ export function OutputPanel() {
   const simulation = useCircuitStore((s) => s.simulation);
   const outputProbabilities = useCircuitStore((s) => s.outputProbabilities);
   const detectedAlgorithm = useCircuitStore((s) => s.detectedAlgorithm);
-  const gates = useCircuitStore((s) => s.gates);
   const [animatedProbs, setAnimatedProbs] = useState<number[]>([]);
   const [isMinimized, setIsMinimized] = useState(false);
 

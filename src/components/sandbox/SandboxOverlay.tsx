@@ -1,6 +1,5 @@
 import { useCircuitStore } from '../../store/circuitStore';
 import { useSandboxStore } from '../../store/sandboxStore';
-import { theme } from '../../lib/theme';
 import { SandboxBottomPanel } from './SandboxBottomPanel';
 
 export function SandboxOverlay() {

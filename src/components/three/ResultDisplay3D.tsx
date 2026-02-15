@@ -1,7 +1,6 @@
 import { useRef } from 'react';
 import { useFrame } from '@react-three/fiber';
 import { Text } from '@react-three/drei';
-import * as THREE from 'three';
 import { useCircuitStore } from '../../store/circuitStore';
 import { STEP_SPACING } from '../../lib/constants';
 import { interpretResult } from '../../lib/resultInterpreter';

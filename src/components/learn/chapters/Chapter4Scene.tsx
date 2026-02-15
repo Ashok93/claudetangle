@@ -1,7 +1,6 @@
 import { useRef } from 'react';
 import { useFrame } from '@react-three/fiber';
 import { Html, Line } from '@react-three/drei';
-import * as THREE from 'three';
 import { useLearnStore } from '../../../store/learnStore';
 import { LearnBlochSphere } from '../LearnBlochSphere';
 import { GateButton3D } from '../GateButton3D';
@@ -42,7 +41,6 @@ export function Chapter4Scene() {
   const measureQubit = useLearnStore((s) => s.measureQubit);
   const twoQubitResults = useLearnStore((s) => s.twoQubitResults);
   const twoQubitHistory = useLearnStore((s) => s.twoQubitHistory);
-  const isEntangled = useLearnStore((s) => s.isEntangled);
   const subStep = useLearnStore((s) => s.subStep);
   const resetQubits = useLearnStore((s) => s.resetQubits);
 

@@ -1,7 +1,5 @@
 import * as THREE from 'three';
 import { THEME_GATE_COLORS } from './theme';
-import type { GateType } from '../types/circuit';
-
 // Layout
 export const QUBIT_SPACING = 2;
 export const STEP_SPACING = 2.5;

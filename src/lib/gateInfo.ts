@@ -205,6 +205,87 @@ export const GATE_INFO: Record<GateType, GateExplanation> = {
   },
 };
 
+// --- Walkthrough types and content for guided mode ---
+
+export interface StepWalkthrough {
+  title: string;
+  description: string;
+  stateChange: string;
+  visualHint: string;
+}
+
+export interface AlgorithmWalkthrough {
+  intro: string;
+  steps: Record<number, StepWalkthrough>;
+  conclusion: string;
+}
+
+export const WALKTHROUGH_CONTENT: Record<string, AlgorithmWalkthrough> = {
+  'Bell State': {
+    intro:
+      "This is the Bell State — the simplest circuit that creates quantum entanglement. Two qubits will become mysteriously linked so that measuring one instantly determines the other.",
+    steps: {
+      0: {
+        title: 'Hadamard: Creating Superposition',
+        description:
+          'The Hadamard gate puts qubit 0 into an equal superposition of |0⟩ and |1⟩. Before this gate, q0 is definitely 0. After, it has a 50/50 chance of being measured as either — it is genuinely both at once.',
+        stateChange: '|00⟩ → (|00⟩ + |10⟩)/√2',
+        visualHint:
+          "Watch q0's Bloch sphere arrow move from the north pole to the equator — that's superposition.",
+      },
+      1: {
+        title: 'CNOT: Creating Entanglement',
+        description:
+          'The CNOT (controlled-NOT) gate uses q0 as a control: if q0 is |1⟩, it flips q1. Since q0 is in superposition, this creates entanglement — the two qubits become correlated in a way that has no classical explanation.',
+        stateChange: '(|00⟩ + |10⟩)/√2 → (|00⟩ + |11⟩)/√2',
+        visualHint:
+          'The entanglement beam appears between the qubits — their fates are now linked.',
+      },
+      2: {
+        title: 'Measurement: Collapsing the State',
+        description:
+          "Measurement forces each qubit to choose a definite value. Because they're entangled, they always agree: you'll get |00⟩ or |11⟩, each with 50% probability. You'll never see |01⟩ or |10⟩.",
+        stateChange: '(|00⟩ + |11⟩)/√2 → |00⟩ or |11⟩',
+        visualHint:
+          'Watch the probability bars — only 00 and 11 appear, never 01 or 10.',
+      },
+    },
+    conclusion:
+      "You've created the Bell state! The qubits are entangled — they always agree. This is the foundation of quantum teleportation and quantum cryptography.",
+  },
+};
+
+/**
+ * Get walkthrough content for a specific step.
+ * Uses custom content if available, otherwise generates from GATE_INFO.
+ */
+export function getWalkthroughForStep(
+  algorithmName: string | null,
+  step: number,
+  gates: { type: string; targets: number[]; step: number }[],
+  _qubits: number,
+): StepWalkthrough | null {
+  // Try custom content first
+  if (algorithmName && WALKTHROUGH_CONTENT[algorithmName]?.steps[step]) {
+    return WALKTHROUGH_CONTENT[algorithmName].steps[step];
+  }
+
+  // Generic fallback from GATE_INFO
+  const gatesAtStep = gates.filter((g) => g.step === step);
+  if (gatesAtStep.length === 0) return null;
+
+  const gate = gatesAtStep[0];
+  const info = GATE_INFO[gate.type as keyof typeof GATE_INFO];
+  if (!info) return null;
+
+  return {
+    title: `${info.name}: ${info.quantumConcept}`,
+    description: info.oneLiner + ' ' + info.analogy,
+    stateChange: info.stateEffect,
+    visualHint: info.whatYouSee,
+  };
+}
+
 export const ALGORITHM_NARRATIVES: Record<string, string[]> = {
   'Bell State': [
     'This is the simplest quantum circuit that creates entanglement.',

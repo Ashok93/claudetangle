@@ -88,7 +88,7 @@ function ghzInterpreter(probs: OutputProbability[]): ResultInterpretation {
   };
 }
 
-function teleportationInterpreter(probs: OutputProbability[]): ResultInterpretation {
+function teleportationInterpreter(_probs: OutputProbability[]): ResultInterpretation {
   return {
     headline: 'Quantum state teleported',
     explanation: "q0's quantum state has been transferred to q2 using entanglement and classical communication \u2014 without physically moving the qubit.",

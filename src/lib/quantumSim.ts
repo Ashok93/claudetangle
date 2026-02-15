@@ -273,8 +273,8 @@ export function simulateCircuit(qubits: number, gates: Gate[]): StepState[] {
     const gatesAtStep = stepMap.get(step)!;
     for (const gate of gatesAtStep) {
       const { real, imag } = applyGate(gate, size, stateReal, stateImag);
-      stateReal = real;
-      stateImag = imag;
+      stateReal = real as Float64Array<ArrayBuffer>;
+      stateImag = imag as Float64Array<ArrayBuffer>;
     }
 
     result.push({

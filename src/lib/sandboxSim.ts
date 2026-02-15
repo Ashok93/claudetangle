@@ -292,9 +292,9 @@ export function getBlochCoords(sv: StateVector): BlochCoords[] {
 
   for (let q = 0; q < n; q++) {
     // Reduced density matrix for qubit q: ρ = [[ρ00, ρ01], [ρ10, ρ11]]
-    let rho00_re = 0, rho00_im = 0;
+    let rho00_re = 0;
     let rho01_re = 0, rho01_im = 0;
-    let rho11_re = 0, rho11_im = 0;
+    let rho11_re = 0;
 
     for (let i = 0; i < size; i++) {
       const bit = (i >> q) & 1;

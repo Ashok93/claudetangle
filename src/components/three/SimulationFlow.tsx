@@ -69,10 +69,12 @@ export function SimulationFlow() {
     }
 
     // Read speed and paused state
-    const { simulationSpeed, simulationPaused, stepStates, simulationStep } = useCircuitStore.getState();
+    const { simulationSpeed, simulationPaused, walkthroughPaused, guidedMode, stepStates, simulationStep } = useCircuitStore.getState();
+
+    const effectivelyPaused = simulationPaused || walkthroughPaused;
 
     // Detect manual step change (user clicked Previous or Next while paused)
-    if (simulationStep !== prevStepRef.current && simulationPaused) {
+    if (simulationStep !== prevStepRef.current && effectivelyPaused) {
       const startZ = -2;
       const maxDelay = (qubits - 1) * 0.15;
       timeRef.current = (simulationStep * STEP_SPACING + startZ + STEP_SPACING * 0.5) / PULSE_SPEED + maxDelay;
@@ -80,7 +82,7 @@ export function SimulationFlow() {
     }
     prevStepRef.current = simulationStep;
 
-    if (!simulationPaused) {
+    if (!effectivelyPaused) {
       timeRef.current += delta * simulationSpeed;
     }
 
@@ -89,9 +91,14 @@ export function SimulationFlow() {
     const currentZ = timeRef.current * PULSE_SPEED - 2;
     const currentStep = Math.floor(currentZ / STEP_SPACING);
 
-    if (currentStep > lastAdvanceRef.current && currentStep <= maxStep + 1 && !simulationPaused) {
+    if (currentStep > lastAdvanceRef.current && currentStep <= maxStep + 1 && !effectivelyPaused) {
       lastAdvanceRef.current = currentStep;
       advanceSimulation();
+
+      // In guided mode, auto-pause at each new step boundary
+      if (guidedMode && currentStep <= maxStep) {
+        useCircuitStore.setState({ walkthroughPaused: true });
+      }
     }
 
     // Get current step state for amplitude and phase

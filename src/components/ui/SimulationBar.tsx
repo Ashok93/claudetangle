@@ -2,7 +2,7 @@ import { useCircuitStore } from '../../store/circuitStore';
 import { ALGORITHM_NARRATIVES, GATE_INFO } from '../../lib/gateInfo';
 import { theme } from '../../lib/theme';
 
-const SPEED_PRESETS = [0.5, 1, 2, 4];
+const SPEED_PRESETS = [0.25, 0.5, 1, 2, 4];
 
 function getStepExplanation(
   simulationStep: number,
@@ -46,6 +46,10 @@ export function SimulationBar() {
   const stepBackward = useCircuitStore((s) => s.stepBackward);
   const startSimulation = useCircuitStore((s) => s.startSimulation);
   const resetSimulation = useCircuitStore((s) => s.resetSimulation);
+  const guidedMode = useCircuitStore((s) => s.guidedMode);
+  const walkthroughPaused = useCircuitStore((s) => s.walkthroughPaused);
+  const setGuidedMode = useCircuitStore((s) => s.setGuidedMode);
+  const continueWalkthrough = useCircuitStore((s) => s.continueWalkthrough);
 
   if (gates.length === 0) return null;
 
@@ -81,7 +85,7 @@ export function SimulationBar() {
 
   return (
     <div
-      className="flex items-center gap-3 px-4 py-2 border-b flex-shrink-0"
+      className="flex items-center gap-2 sm:gap-3 px-2 sm:px-4 py-2 border-b flex-shrink-0"
       style={{
         background: theme.bg.surface,
         borderColor: theme.border.subtle,
@@ -176,6 +180,21 @@ export function SimulationBar() {
         </p>
       </div>
 
+      {/* Continue button for walkthrough pause — hidden on mobile (overlay has one) */}
+      {isRunning && walkthroughPaused && guidedMode && (
+        <button
+          onClick={continueWalkthrough}
+          className="hidden sm:block px-3 py-1 text-xs font-semibold rounded transition-colors flex-shrink-0"
+          style={{
+            background: theme.accent.primary,
+            color: '#fff',
+            minHeight: 32,
+          }}
+        >
+          Continue →
+        </button>
+      )}
+
       {/* Speed pills — hidden on mobile */}
       {!isIdle && (
         <div className="hidden sm:flex gap-1 flex-shrink-0">
@@ -194,6 +213,30 @@ export function SimulationBar() {
           ))}
         </div>
       )}
+
+      {/* Divider — hidden on mobile */}
+      <div className="hidden sm:block w-px h-5 flex-shrink-0" style={{ background: theme.border.subtle }} />
+
+      {/* Guided mode toggle — compact on mobile */}
+      <button
+        onClick={() => setGuidedMode(!guidedMode)}
+        className="w-9 h-9 sm:w-auto sm:h-auto sm:px-2 sm:py-0.5 text-[11px] rounded transition-colors flex-shrink-0 flex items-center justify-center"
+        style={{
+          background: guidedMode ? 'rgba(99, 102, 241, 0.25)' : theme.bg.raised,
+          color: guidedMode ? '#a5b4fc' : theme.text.tertiary,
+          border: guidedMode ? '1px solid rgba(99, 102, 241, 0.4)' : '1px solid transparent',
+        }}
+        title={guidedMode ? 'Guided mode on — pauses at each step with explanations' : 'Guided mode off — simulation runs continuously'}
+      >
+        {/* Icon on mobile, text on desktop */}
+        <span className="sm:hidden">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z" />
+            <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z" />
+          </svg>
+        </span>
+        <span className="hidden sm:inline">Guide</span>
+      </button>
     </div>
   );
 }

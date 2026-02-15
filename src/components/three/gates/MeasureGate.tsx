@@ -23,7 +23,7 @@ export function MeasureGate({ position, gateId, gateStep }: MeasureGateProps) {
     if (meshRef.current) {
       const mat = meshRef.current.material as THREE.MeshStandardMaterial;
       const simStep = useCircuitStore.getState().simulationStep;
-      const isActive = simStep === gateStep && useCircuitStore.getState().phase === 'running';
+      const isActive = simStep === gateStep && useCircuitStore.getState().simulation === 'running';
       if (isActive) flashRef.current = 1;
       else flashRef.current = THREE.MathUtils.lerp(flashRef.current, 0, delta * 3);
       mat.emissiveIntensity = (isSelected ? 0.6 : 0.3) + Math.sin(Date.now() * 0.003) * 0.1 + flashRef.current * 0.6;

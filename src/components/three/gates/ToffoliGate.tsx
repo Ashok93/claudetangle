@@ -27,7 +27,7 @@ export function ToffoliGate({ control1Y, control2Y, targetY, zPos, gateId, gateS
       ringRef.current.rotation.z += delta * 0.8;
       const mat = ringRef.current.material as THREE.MeshStandardMaterial;
       const simStep = useCircuitStore.getState().simulationStep;
-      const isActive = simStep === gateStep && useCircuitStore.getState().phase === 'running';
+      const isActive = simStep === gateStep && useCircuitStore.getState().simulation === 'running';
       if (isActive) flashRef.current = 1;
       else flashRef.current = THREE.MathUtils.lerp(flashRef.current, 0, delta * 3);
       mat.emissiveIntensity = (isSelected ? 0.8 : 0.4) + flashRef.current * 0.6;

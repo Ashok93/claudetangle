@@ -5,7 +5,6 @@ import * as THREE from 'three';
 import { useCircuitStore } from '../../store/circuitStore';
 import { STEP_SPACING } from '../../lib/constants';
 import { phaseToHue } from '../../lib/quantumSim';
-import type { OutputProbability } from '../../store/circuitStore';
 import { marginalizeWorkRegister } from '../../lib/resultInterpreter';
 
 function WaveSurface({

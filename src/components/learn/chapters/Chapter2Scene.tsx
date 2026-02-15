@@ -8,7 +8,6 @@ export function Chapter2Scene() {
   const currentStep = useLearnStore((s) => s.currentStep);
   const applyGate = useLearnStore((s) => s.applyGate);
   const resetQubits = useLearnStore((s) => s.resetQubits);
-  const qubits = useLearnStore((s) => s.qubits);
   const subStep = useLearnStore((s) => s.subStep);
   const completeInteraction = useLearnStore((s) => s.completeInteraction);
   const prevStepRef = useRef(currentStep);

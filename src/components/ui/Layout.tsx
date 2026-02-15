@@ -6,6 +6,7 @@ import { GateInfo } from './GateInfo';
 import { OutputPanel } from './OutputPanel';
 import { SimulationBar } from './SimulationBar';
 import { ProgramSelector } from './ProgramSelector';
+import { WalkthroughOverlay } from '../three/WalkthroughOverlay';
 import { LearnMode } from '../learn/LearnMode';
 import { SandboxMode } from '../sandbox/SandboxMode';
 import { useCircuitStore } from '../../store/circuitStore';
@@ -91,6 +92,7 @@ export function Layout() {
         {/* 3D Scene — fills remaining space */}
         <div className="flex-1 relative min-w-0">
           <QuantumScene />
+          <WalkthroughOverlay />
           <GateInfo />
           <OutputPanel />
           <ProgramSelector />

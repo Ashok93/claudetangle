@@ -56,7 +56,7 @@ export function MacroCube({ gates, label, totalQubits, color = '#7c4dff' }: Macr
 
     // Gates spread out when expanded
     if (groupRef.current) {
-      groupRef.current.children.forEach((child, i) => {
+      groupRef.current.children.forEach((child, _i) => {
         const targetScale = expandProgress.current;
         child.scale.setScalar(targetScale);
       });

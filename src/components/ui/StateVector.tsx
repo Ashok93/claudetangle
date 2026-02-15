@@ -4,7 +4,6 @@ import { theme } from '../../lib/theme';
 
 export function StateVector() {
   const simulationStep = useCircuitStore((s) => s.simulationStep);
-  const simulationMaxStep = useCircuitStore((s) => s.simulationMaxStep);
   const stepStates = useCircuitStore((s) => s.stepStates);
 
   // Find the step state matching current simulation step

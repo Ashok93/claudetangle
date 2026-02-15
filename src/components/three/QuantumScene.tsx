@@ -1,5 +1,5 @@
 import { useEffect, useRef } from 'react';
-import { Canvas, useThree } from '@react-three/fiber';
+import { Canvas, useThree, useFrame } from '@react-three/fiber';
 import { OrbitControls } from '@react-three/drei';
 import { EffectComposer, Bloom } from '@react-three/postprocessing';
 import * as THREE from 'three';
@@ -19,8 +19,13 @@ import {
   BLOOM_INTENSITY,
   BLOOM_LUMINANCE_THRESHOLD,
   BLOOM_LUMINANCE_SMOOTHING,
+  QUBIT_SPACING,
   STEP_SPACING,
 } from '../../lib/constants';
+
+function qubitToY(qubitIndex: number, totalQubits: number): number {
+  return ((totalQubits - 1) / 2) * QUBIT_SPACING - qubitIndex * QUBIT_SPACING;
+}
 
 function CameraController() {
   const { camera } = useThree();
@@ -28,40 +33,76 @@ function CameraController() {
   const simulation = useCircuitStore((s) => s.simulation);
   const simulationMaxStep = useCircuitStore((s) => s.simulationMaxStep);
   const targetRef = useRef(new THREE.Vector3(0, 0, 8));
+  const camPosRef = useRef<THREE.Vector3 | null>(null);
   const animating = useRef(false);
+  const lastFocusedStep = useRef(-1);
 
   useEffect(() => {
     if (simulation === 'complete') {
       const endZ = (simulationMaxStep + 3) * STEP_SPACING;
       targetRef.current.set(0, 0, endZ * 0.6);
+      camPosRef.current = null;
       animating.current = true;
+      lastFocusedStep.current = -1;
     } else if (simulation === 'idle') {
       targetRef.current.set(0, 0, 8);
+      camPosRef.current = null;
       animating.current = true;
+      lastFocusedStep.current = -1;
     }
   }, [simulation, simulationMaxStep]);
 
-  // Smooth lerp to target
-  useEffect(() => {
-    if (!controlsRef.current) return;
-    const controls = controlsRef.current;
-    let animId: number;
+  // Guided mode: focus camera on active gate once per step change
+  useFrame(() => {
+    const {
+      guidedMode,
+      walkthroughPaused,
+      simulation: sim,
+      simulationStep,
+      gates,
+      qubits,
+    } = useCircuitStore.getState();
 
-    const animate = () => {
-      if (animating.current && controls.target) {
-        controls.target.lerp(targetRef.current, 0.03);
-        const dist = controls.target.distanceTo(targetRef.current);
-        if (dist < 0.05) {
-          controls.target.copy(targetRef.current);
-          animating.current = false;
-        }
-        controls.update();
+    if (guidedMode && walkthroughPaused && sim === 'running' && simulationStep !== lastFocusedStep.current) {
+      lastFocusedStep.current = simulationStep;
+      const gatesAtStep = gates.filter((g) => g.step === simulationStep);
+      if (gatesAtStep.length > 0) {
+        const allTargets = gatesAtStep.flatMap((g) => [
+          ...g.targets,
+          ...(g.controls ?? []),
+        ]);
+        const avgQubit =
+          allTargets.reduce((sum, q) => sum + q, 0) / allTargets.length;
+        const gateY = qubitToY(avgQubit, qubits);
+        const gateZ = simulationStep * STEP_SPACING;
+
+        targetRef.current.set(0, gateY, gateZ);
+        camPosRef.current = new THREE.Vector3(8, gateY + 3, gateZ - 5);
+        animating.current = true;
       }
-      animId = requestAnimationFrame(animate);
-    };
-    animId = requestAnimationFrame(animate);
-    return () => cancelAnimationFrame(animId);
-  }, []);
+    }
+
+    // Lerp controls target
+    if (animating.current && controlsRef.current?.target) {
+      const controls = controlsRef.current;
+      controls.target.lerp(targetRef.current, 0.05);
+
+      if (camPosRef.current) {
+        camera.position.lerp(camPosRef.current, 0.05);
+      }
+
+      const dist = controls.target.distanceTo(targetRef.current);
+      const camDist = camPosRef.current
+        ? camera.position.distanceTo(camPosRef.current)
+        : 0;
+      if (dist < 0.05 && camDist < 0.05) {
+        controls.target.copy(targetRef.current);
+        if (camPosRef.current) camera.position.copy(camPosRef.current);
+        animating.current = false;
+      }
+      controls.update();
+    }
+  });
 
   return (
     <OrbitControls
@@ -143,15 +184,25 @@ function KeyboardHandler() {
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.target instanceof HTMLInputElement || e.target instanceof HTMLTextAreaElement) return;
+      if ((e.target as HTMLElement)?.closest?.('.cm-editor')) return;
+
       if ((e.key === 'Delete' || e.key === 'Backspace') && selectedGateId) {
-        if (e.target instanceof HTMLInputElement || e.target instanceof HTMLTextAreaElement) return;
-        if ((e.target as HTMLElement)?.closest?.('.cm-editor')) return;
         e.preventDefault();
         removeGate(selectedGateId);
         selectGate(null);
       }
       if (e.key === 'Escape') {
         selectGate(null);
+      }
+
+      // Space key: continue walkthrough if paused in guided mode
+      if (e.key === ' ' || e.code === 'Space') {
+        const { walkthroughPaused, guidedMode } = useCircuitStore.getState();
+        if (guidedMode && walkthroughPaused) {
+          e.preventDefault();
+          useCircuitStore.getState().continueWalkthrough();
+        }
       }
     };
 

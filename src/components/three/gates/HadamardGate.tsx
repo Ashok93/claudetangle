@@ -29,7 +29,7 @@ export function HadamardGate({ position, gateId, gateStep }: HadamardGateProps) 
       wireRef.current.rotation.x += delta * GATE_ROTATION_SPEED * 0.3;
     }
     const simStep = useCircuitStore.getState().simulationStep;
-    const isActive = simStep === gateStep && useCircuitStore.getState().phase === 'running';
+    const isActive = simStep === gateStep && useCircuitStore.getState().simulation === 'running';
     if (isActive) flashRef.current = 1;
     else flashRef.current = THREE.MathUtils.lerp(flashRef.current, 0, delta * 3);
     if (meshRef.current) {

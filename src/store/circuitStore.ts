@@ -29,6 +29,10 @@ interface CircuitState {
   simulationSpeed: number;
   simulationPaused: boolean;
 
+  // Guided walkthrough
+  guidedMode: boolean;
+  walkthroughPaused: boolean;
+
   // UI mode
   uiMode: UIMode;
 
@@ -58,6 +62,10 @@ interface CircuitState {
   togglePause: () => void;
   stepForward: () => void;
   stepBackward: () => void;
+
+  // Guided mode actions
+  setGuidedMode: (enabled: boolean) => void;
+  continueWalkthrough: () => void;
 }
 
 function detectAlgorithm(qubits: number, gates: Gate[]): string | null {
@@ -99,8 +107,10 @@ export const useCircuitStore = create<CircuitState>((set, get) => ({
   outputProbabilities: [],
   detectedAlgorithm: null,
   stepStates: [],
-  simulationSpeed: 1,
+  simulationSpeed: 0.5,
   simulationPaused: false,
+  guidedMode: true,
+  walkthroughPaused: false,
   uiMode: 'explore',
   selectedBlochQubit: null,
 
@@ -153,6 +163,7 @@ export const useCircuitStore = create<CircuitState>((set, get) => ({
     stepStates: [],
     qubits: 5,
     simulationPaused: false,
+    walkthroughPaused: false,
     selectedBlochQubit: null,
   }),
 
@@ -177,7 +188,7 @@ export const useCircuitStore = create<CircuitState>((set, get) => ({
   },
 
   startSimulation: () => {
-    const { gates, qubits } = get();
+    const { gates, qubits, guidedMode } = get();
     if (gates.length === 0) return;
 
     const maxStep = Math.max(...gates.map((g) => g.step));
@@ -191,6 +202,7 @@ export const useCircuitStore = create<CircuitState>((set, get) => ({
       outputProbabilities: finalState.probabilities,
       stepStates: states,
       simulationPaused: false,
+      walkthroughPaused: guidedMode,
     });
   },
 
@@ -210,6 +222,7 @@ export const useCircuitStore = create<CircuitState>((set, get) => ({
     outputProbabilities: [],
     stepStates: [],
     simulationPaused: false,
+    walkthroughPaused: false,
     selectedBlochQubit: null,
   }),
 
@@ -232,5 +245,16 @@ export const useCircuitStore = create<CircuitState>((set, get) => ({
     const { simulationStep } = get();
     const newStep = Math.max(0, simulationStep - 1);
     set({ simulationStep: newStep, simulationPaused: true, simulation: 'running' });
+  },
+
+  setGuidedMode: (enabled) => set({ guidedMode: enabled, walkthroughPaused: false }),
+
+  continueWalkthrough: () => {
+    const { simulationStep, simulationMaxStep } = get();
+    if (simulationStep >= simulationMaxStep) {
+      set({ walkthroughPaused: false, simulation: 'complete' });
+    } else {
+      set({ walkthroughPaused: false });
+    }
   },
 }));

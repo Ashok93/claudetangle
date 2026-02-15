@@ -113,7 +113,6 @@ export function Chapter3Scene() {
   const total = measurementHistory.length;
 
   const q = qubits[0];
-  const prob0 = ((1 - q.amplitude) * 100).toFixed(0);
   const prob1 = (q.amplitude * 100).toFixed(0);
 
   const speechBubble = currentStep === 0 ? "I'm in superposition!" :
