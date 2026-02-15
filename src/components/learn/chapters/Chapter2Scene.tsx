@@ -150,7 +150,7 @@ export function Chapter2Scene() {
         <GateButton3D
           gate={interferenceGate}
           label={`${interferenceLabel} (${subStep + 1}/3)`}
-          position={[0, 1.5, 0]}
+          position={[-1.3, 0.5, 0]}
           pulse
           onClick={handleInterferenceGate}
         />
