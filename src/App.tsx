@@ -2,7 +2,6 @@ import { useState, useCallback } from 'react';
 import { Layout } from './components/ui/Layout';
 import { Onboarding } from './components/ui/Onboarding';
 import { LandingPage } from './components/landing/LandingPage';
-import { useCircuitStore } from './store/circuitStore';
 
 function App() {
   const [showLanding, setShowLanding] = useState(true);
@@ -10,10 +9,7 @@ function App() {
     return !localStorage.getItem('claudetangle-onboarded') && !localStorage.getItem('qflux-onboarded');
   });
 
-  const handleLandingEnter = useCallback((mode?: string) => {
-    if (mode === 'learn') {
-      useCircuitStore.getState().setUIMode('learn');
-    }
+  const handleLandingEnter = useCallback(() => {
     setShowLanding(false);
   }, []);
 

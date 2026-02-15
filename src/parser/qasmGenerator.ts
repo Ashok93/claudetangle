@@ -21,32 +21,37 @@ export function generateQASM(qubits: number, gates: Gate[]): string {
     }
     lastStep = gate.step;
 
+    const t = gate.targets[0];
+    const ctrl = gate.controls?.[0] ?? 0;
+    const ctrls = gate.controls ?? [0, 1];
+
     switch (gate.type) {
-      case 'h':
-        lines.push(`h q[${gate.targets[0]}];`);
-        break;
-      case 'x':
-        lines.push(`x q[${gate.targets[0]}];`);
-        break;
-      case 'y':
-        lines.push(`y q[${gate.targets[0]}];`);
-        break;
-      case 'z':
-        lines.push(`z q[${gate.targets[0]}];`);
-        break;
-      case 'cx': {
-        const control = gate.controls?.[0] ?? 0;
-        lines.push(`cx q[${control}],q[${gate.targets[0]}];`);
-        break;
-      }
-      case 'ccx': {
-        const controls = gate.controls ?? [0, 1];
-        lines.push(`ccx q[${controls[0]}],q[${controls[1]}],q[${gate.targets[0]}];`);
-        break;
-      }
-      case 'measure':
-        lines.push(`measure q[${gate.targets[0]}] -> c[${gate.targets[0]}];`);
-        break;
+      // Single-qubit gates
+      case 'h':    lines.push(`h q[${t}];`);    break;
+      case 'x':    lines.push(`x q[${t}];`);    break;
+      case 'y':    lines.push(`y q[${t}];`);    break;
+      case 'z':    lines.push(`z q[${t}];`);    break;
+      case 's':    lines.push(`s q[${t}];`);    break;
+      case 'sdg':  lines.push(`sdg q[${t}];`);  break;
+      case 't':    lines.push(`t q[${t}];`);    break;
+      case 'tdg':  lines.push(`tdg q[${t}];`);  break;
+
+      // Two-qubit controlled gates
+      case 'cx':   lines.push(`cx q[${ctrl}],q[${t}];`);   break;
+      case 'cz':   lines.push(`cz q[${ctrl}],q[${t}];`);   break;
+      case 'cs':   lines.push(`cs q[${ctrl}],q[${t}];`);   break;
+      case 'csdg': lines.push(`csdg q[${ctrl}],q[${t}];`); break;
+      case 'ct':   lines.push(`ct q[${ctrl}],q[${t}];`);   break;
+      case 'ctdg': lines.push(`ctdg q[${ctrl}],q[${t}];`); break;
+      case 'cr4':  lines.push(`cr4 q[${ctrl}],q[${t}];`);  break;
+      case 'cr4dg': lines.push(`cr4dg q[${ctrl}],q[${t}];`); break;
+      case 'swap':  lines.push(`swap q[${gate.targets[0]}],q[${gate.targets[1] ?? ctrl}];`); break;
+
+      // Three-qubit gates
+      case 'ccx':  lines.push(`ccx q[${ctrls[0]}],q[${ctrls[1]}],q[${t}];`); break;
+
+      // Measurement
+      case 'measure': lines.push(`measure q[${t}] -> c[${t}];`); break;
     }
   }
 
