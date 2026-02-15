@@ -73,13 +73,6 @@ export function ProgramSelector() {
     }, 250);
   };
 
-  const handleBuildOwn = () => {
-    setFading(true);
-    setTimeout(() => {
-      setUIMode('build');
-    }, 250);
-  };
-
   return (
     <div
       className="absolute inset-0 z-20 flex justify-center overflow-y-auto transition-opacity duration-300"
@@ -101,10 +94,7 @@ export function ProgramSelector() {
 
         {/* Learn section */}
         <button
-          onClick={() => {
-            setFading(true);
-            setTimeout(() => setUIMode('learn'), 250);
-          }}
+          onClick={() => setUIMode('learn')}
           className="w-full text-left px-5 py-4 rounded-xl border transition-all duration-200 relative overflow-hidden"
           style={{
             background: theme.bg.surface,
@@ -126,12 +116,6 @@ export function ProgramSelector() {
             <span className="text-[16px] font-bold" style={{ color: theme.text.primary }}>
               Learn Quantum Computing
             </span>
-            <span
-              className="text-[11px] px-2 py-0.5 rounded-full font-medium"
-              style={{ background: semantic.success + '15', color: semantic.success }}
-            >
-              New
-            </span>
           </div>
           <p className="text-[13px] leading-relaxed" style={{ color: theme.text.secondary }}>
             Interactive 3D lessons — learn qubits, gates, measurement, and entanglement from scratch.
@@ -140,10 +124,7 @@ export function ProgramSelector() {
 
         {/* Sandbox section */}
         <button
-          onClick={() => {
-            setFading(true);
-            setTimeout(() => setUIMode('sandbox'), 250);
-          }}
+          onClick={() => setUIMode('sandbox')}
           className="w-full text-left px-5 py-4 rounded-xl border transition-all duration-200 relative overflow-hidden"
           style={{
             background: theme.bg.surface,
@@ -255,26 +236,6 @@ export function ProgramSelector() {
           </div>
         </div>
 
-        {/* Build Your Own button */}
-        <button
-          onClick={handleBuildOwn}
-          className="px-8 py-3 rounded-xl text-[14px] font-medium transition-all border"
-          style={{
-            background: 'transparent',
-            color: theme.text.secondary,
-            borderColor: theme.border.medium,
-          }}
-          onMouseEnter={(e) => {
-            e.currentTarget.style.borderColor = theme.accent.primary;
-            e.currentTarget.style.color = theme.accent.primary;
-          }}
-          onMouseLeave={(e) => {
-            e.currentTarget.style.borderColor = theme.border.medium;
-            e.currentTarget.style.color = theme.text.secondary;
-          }}
-        >
-          Build Your Own Circuit
-        </button>
       </div>
     </div>
   );

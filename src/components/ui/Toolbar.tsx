@@ -1,5 +1,5 @@
 import { useCircuitStore } from '../../store/circuitStore';
-import { theme, semantic } from '../../lib/theme';
+import { theme } from '../../lib/theme';
 
 export function Toolbar() {
   const gates = useCircuitStore((s) => s.gates);
@@ -13,12 +13,6 @@ export function Toolbar() {
     resetSimulation();
     clearCircuit();
     setUIMode('explore');
-  };
-
-  const handleBuildYourOwn = () => {
-    resetSimulation();
-    clearCircuit();
-    setUIMode('build');
   };
 
   return (
@@ -72,33 +66,6 @@ export function Toolbar() {
       </div>
 
       <div className="flex items-center gap-2">
-        {uiMode === 'explore' && (
-          <>
-            <button
-              onClick={() => setUIMode('learn')}
-              className="px-3 py-1.5 min-h-[44px] sm:min-h-0 text-xs rounded-lg transition-colors border"
-              style={{
-                background: semantic.success + '10',
-                color: semantic.success,
-                borderColor: semantic.success + '30',
-              }}
-            >
-              Learn
-            </button>
-            <button
-              onClick={handleBuildYourOwn}
-              className="px-3 py-1.5 min-h-[44px] sm:min-h-0 text-xs rounded-lg transition-colors border"
-              style={{
-                background: theme.bg.raised,
-                color: theme.text.secondary,
-                borderColor: theme.border.medium,
-              }}
-            >
-              Build Your Own
-            </button>
-          </>
-        )}
-
         {uiMode === 'build' && (
           <span className="text-[11px] px-2 py-0.5 rounded-full" style={{ background: theme.accent.primary + '20', color: theme.accent.hover }}>
             Build Mode
